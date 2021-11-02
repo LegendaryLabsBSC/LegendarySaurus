@@ -45,22 +45,33 @@ const config = {
       navbar: {
         title: 'LabDocs',
         logo: {
-          alt: 'My Site Logo',
-          src: 'assets/blue_logo_no_words.png',
+          alt: 'Legendary Labs Logo',
+          src: 'img/blue_logo_no_words.png',
         },
         items: [
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Admin Contracts',
+            label: 'Smart Contracts',
           }, {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'NFT Contracts',
+            label: 'Front End',
           },
-          // { to: '/blog', label: 'Blog', position: 'left' },
+          {
+            type: 'doc',
+            docId: 'intro',
+            position: 'left',
+            label: 'Back End',
+          }, {
+            type: 'doc',
+            docId: 'intro',
+            position: 'left',
+            label: 'API',
+          },
+          { to: '/blog', label: 'Updates', position: 'left' },
           {
             href: 'https://github.com/LegendaryLabsBSC/LegendaryLabs',
             label: 'GitHub',
