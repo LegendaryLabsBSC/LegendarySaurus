@@ -24,13 +24,13 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/LegendaryLabsBSC/LegendaryLabs',
+          editUrl: 'https://github.com/LegendaryLabsBSC/LegendaryLabs/tree/develop/contracts/contracts',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/LegendaryLabsBSC/LegendaryLabs',
+            'https://github.com/LegendaryLabsBSC/LegendaryLabs/tree/develop/contracts/contracts',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -73,8 +73,18 @@ const config = {
           },
           { to: '/blog', label: 'Updates', position: 'left' },
           {
-            href: 'https://github.com/LegendaryLabsBSC/LegendaryLabs',
+            href: '/testing',
+            label: 'Testing',
+            position: 'right',
+          },
+          {
+            href: 'https://github.com/LegendaryLabsBSC/LegendaryLabs/tree/develop/contracts/contracts',
             label: 'GitHub',
+            position: 'right',
+          },
+          {
+            href: 'https://legendarylabs.net',
+            label: 'Production Site',
             position: 'right',
           },
         ],
