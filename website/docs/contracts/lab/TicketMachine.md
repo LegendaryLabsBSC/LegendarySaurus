@@ -7,9 +7,12 @@
 
 ### `_createPromoEvent(string name, uint256 duration, bool isUnrestricted, uint256 maxTickets) → uint256` (internal)
 
+Dispenses Tickets For A Legendary Labs Promo Event
 
 
 
+Calls `_dispensePromoTicket` from [`TicketMachine`](/docs/TicketMachine).
+setsetewrw3rtwetewtewtetet
 
 ### `_dispensePromoTicket(uint256 promoId, address recipient, uint256 ticketAmount)` (internal)
 

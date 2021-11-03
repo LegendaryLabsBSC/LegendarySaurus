@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Legendary Docs',
+  title: 'Lab Docs',
   tagline: "It's Going To Be Legendary!",
   url: 'https://legendarylabs.net',
   baseUrl: '/',
@@ -43,7 +43,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'LabDocs',
+        title: 'Lab Docs',
         logo: {
           alt: 'Legendary Labs Logo',
           src: 'img/blue_logo_no_words.png',
@@ -51,32 +51,33 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'contracts/contracts',
             position: 'left',
-            label: 'Smart Contracts',
+            label: 'Contracts',
           }, {
             type: 'doc',
-            docId: 'intro',
+            docId: 'under-construction',
             position: 'left',
             label: 'Front End',
           },
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'under-construction',
             position: 'left',
             label: 'Back End',
+          },
+          {
+            type: 'doc',
+            docId: 'under-construction',
+            position: 'left',
+            label: 'Generator',
           }, {
             type: 'doc',
-            docId: 'intro',
+            docId: 'api/intoapi',
             position: 'left',
             label: 'API',
           },
           { to: '/blog', label: 'Updates', position: 'left' },
-          {
-            href: '/testing',
-            label: 'Testing',
-            position: 'right',
-          },
           {
             href: 'https://github.com/LegendaryLabsBSC/LegendaryLabs/tree/develop/contracts/contracts',
             label: 'GitHub',
@@ -84,7 +85,7 @@ const config = {
           },
           {
             href: 'https://legendarylabs.net',
-            label: 'Production Site',
+            label: 'DApp',
             position: 'right',
           },
         ],
