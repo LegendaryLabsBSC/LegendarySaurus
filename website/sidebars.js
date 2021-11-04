@@ -18,7 +18,7 @@ const sidebars = {
 
   // But you can create a sidebar manually
 
-  tutorialSidebar: [
+  contractsSidebar: [
     {
       type: 'category',
       label: 'Smart Contract Docs',
@@ -28,6 +28,7 @@ const sidebars = {
             'contracts/lab/LegendsLaboratory',
             'contracts/lab/TicketMachine',
             'contracts/lab/LaboratoryGovernor',
+            'contracts/lab/Access Control',
             'contracts/lab/Admin Overrides'
           ],
           Legend: [
@@ -40,7 +41,7 @@ const sidebars = {
               Escrow: [
                 'contracts/marketplace/escrow/LegendsMarketClerk',
                 'contracts/marketplace/escrow/LegendsEscrow',
-              ], listings: [
+              ], Listings: [
                 'contracts/marketplace/listings/LegendSale',
                 'contracts/marketplace/listings/LegendAuction',
                 'contracts/marketplace/listings/ILegendListing',
