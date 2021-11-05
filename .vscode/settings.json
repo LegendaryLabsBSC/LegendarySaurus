@@ -21,5 +21,8 @@
     "titleBar.inactiveBackground": "#00800099",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "green"
+  "peacock.color": "green",
+  "cSpell.words": [
+    "Adminship"
+  ]
 }

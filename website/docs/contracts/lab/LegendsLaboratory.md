@@ -1,4 +1,15 @@
-## `LegendsLaboratory.sol`
+### `LegendsLaboratory.sol`
+
+``` sol title="imports  | pragma solidity 0.8.4"
+import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
+import "./LaboratoryGovernor.sol";
+import "../legend/LegendsNFT.sol";
+import "../token/LegendToken.sol";
+import "../rejuvenation/LegendRejuvenation.sol";
+import "../marketplace/LegendsMarketplace.sol";
+import "../matching/LegendsMatchingBoard.sol";
+import "./TicketMachine.sol";
+```
 
 
 
@@ -7,84 +18,102 @@ Primary controller contract for the Legendary Labs Project
 
 
 
+<br/>
 
+## Functions
 
-### Create Promo Event
+### createPromoEvent
 ---
 
-```sol title="createPromoEvent | (external)"                               
+> *Creates A New Legendary Labs Promo Event!*
+
+<br/>
+
+```sol title="createPromoEvent | external | onlyRole(LAB_TECH)"                               
 createPromoEvent(string eventName, uint256 duration, bool isUnrestricted, 
 uint256 maxTickets, bool skipIncubation) 
 ``` 
 
-Creates A New Legendary Labs' Promo Event!
+Calls `_createPromoEvent` from [`TicketMachine`](./TicketMachine#_createpromoevent). Can only be called by a [`LAB_TECH`](./Access%20Control#terms).
 
-Calls `_createPromoEvent` from [`TicketMachine`](/docs/TicketMachine). Can only be called by a `LAB_TECH`.
+:::info Important
 
-**Promo Events** can be created (1) of (2) ways:
- 1. Unrestricted Promo Event => @param isUnrestricted == true
- 2. Restricted Promo Event => @param isUnrestricted == false
+**promo events** can be created (1) of (2) ways:
+ 1. Unrestricted Promo Event &rarr; `isUnrestricted == true`
+ 2. Restricted Promo Event &rarr; `isUnrestricted == false`
 
-[`TicketMachine`](/docs/TicketMachine) had been extended by this contract with `_promoIncubated`. Which allows
-the Promo creator to specify whether Legends minted from that particular event are required to undergo incubation
-prior to being hatched. If `skipIncubation` is passed (true), all Legend NFTs created via that *Promo Event* will
-be allowed to bypass the incubation duration and have [`hatchLegend`](/docs/LegendNFT) called immediately after being minted.
+[`TicketMachine`](./TicketMachine) had been extended by this contract with `_promoIncubated`. Which allows
+the promo-creator to specify whether Legends minted from that particular event are required to undergo incubation
+prior to being hatched. 
 
-:::note
+If `skipIncubation` is passed `(true)`, all Legend NFTs created via that *promo event* will
+be allowed to bypass the incubation duration and have [`hatchLegend`](../legend/LegendsNFT#hatchLegend) called immediately after being minted.
+
+:::
+
+:::tip Note
 
 The only addresses that should be able to call this function is one approved with the `LAB_TECH` **Access Control Role**.
+
 To check if an address is approved to use this function `hasRole(LAB_TECH, account)` can be called.
 
 :::
 
-:::note
+:::tip Note
 
-If `maxTickets` is set to (0) no *maximum ticket count* will be applied to the event, only a duration.
-If `maxTickets` is passed a number greater than (0) a *maximum ticket count* will be applied, and will override the remaining duration if met.
+If `maxTickets` is set to (0) no *max *ticket limit** will be applied to the event, only a duration.
+If `maxTickets` is passed a value greater than (0) a *max *ticket limit** will be applied, and will override the remaining duration if met.
 
 :::
 
 :::caution
 
-For **Legendary Labs** purposes it is generally NOT recommended to include a `maxTicket` value greater
-than (0) for *Unrestricted* Promo Events. This is due to the fact that there is no way to prevent an individual
-from using multiple addresses to claim multiple tickets. While this still holds true regardless of a ticket limit
-existing, by only limiting a Promo Event with `duration` we remove the possibility of one individual claiming **all**
-of an event's tickets, and ruining the fun for every one else.
+For **Legendary Labs** purposes it is generally **NOT** recommended to include a `maxTicket` value greater
+than (0) for *unrestricted promo events*. Due to the fact that there is currently no way to prevent an individual
+from using multiple addresses to claim multiple tickets. 
 
-The `maxTickets` functionality could be used to create *Promo Events* in a more centralized/organized environment
+While this still holds true regardless of a *max ticket limit*
+existing, by only limiting a *promo event* with a `duration` we remove the possibility of one individual claiming **all**
+of *promo tickets*, and ruining the fun for every one else.
+
+The `maxTickets` functionality could be used to create *promo events* in a more centralized/organized environment
 where the organizers can verify one address per individual.
 
-However, we will primarily use `maxTickets` alongside *Restricted* events, and more likely gear it towards internal accountability.
+However, we will primarily use `maxTickets` alongside *restricted events*, and more likely gear it towards internal accountability.
 
 :::
 
-### Dispenses Promo Ticket
+### dispensePromoTicket
 ---
 
-```sol title="dispensePromoTicket | (public)"
-dispensePromoTicket(uint256 promoId, address recipient, uint256 ticketAmount)"
+> *Dispenses Tickets For A Legendary Labs Promo Event*
+
+<br/>
+
+
+```sol title="dispensePromoTicket | public"
+dispensePromoTicket(uint256 promoId, address recipient, uint256 ticketAmount)
 ```
 
-Dispenses Tickets For A Legendary Labs Promo Event
 
 
 
-Calls `_dispensePromoTicket` from [`TicketMachine`](/docs/TicketMachine).
 
-:::note
+Calls `_dispensePromoTicket` from [`TicketMachine`](./TicketMachine#_dispensepromoticket).
 
-### In an *Unrestricted* **Promo Event**:
+:::note Info
+
+#### In an *Unrestricted* *promo event*:
 
  * Players have the opportunity to call `dispensePromoTicket` without having admin access.
  * Tickets can only be dispensed to the calling address, as `_recipient` is automatically set to `msg.sender`
- * Each address is permitted to claim (1) ticket from the **Ticket Dispenser**.
+ * Each address is permitted to claim (1) ticket from the **Ticket Machine**.
 
-### In an *Restricted* **Promo Event**:
+#### In an *Restricted* *promo event*:
 
  * Only addresses with `LAB_TECH` access are allowed to dispense tickets.
  * The admin-caller has the ability to dispense a ticket and specify a receiving address other than their own.
- * More than (1) ticket can be dispensed per call, however, the recieveing address must stay the same.
+ * More than (1) ticket can be dispensed per call, however, the receiving address must stay the same.
 :::
 
 :::caution
@@ -95,371 +124,436 @@ Calls `_dispensePromoTicket` from [`TicketMachine`](/docs/TicketMachine).
 
 
 
-### Redeem Promo Ticket
+### redeemPromoTicket
 ---
 
-### `redeemPromoTicket(uint256 promoId)` (public)
+> *Redeems (1) Legendary Labs Promo Event Tickets For A Brand Spankin New Legend NFT*
 
-Redeems (1) Legendary Labs' Promo Event Tickets For A Brand Spankin New Legend NFT
+<br/>
+
+``` sol title="redeemPromoTicket | public"
+redeemPromoTicket(uint256 promoId)
+```
+
+Calls `_redeemPromoTicket` from [`TicketMachine`](./TicketMachine#_redeempromoticket). Once a ticket has been successfully redeemed, `createLegend` is called
+from [LegendsNFT](../legend/LegendsNFT#createlegend).
 
 
-
-Calls `_redeemPromoTicket` from [`TicketMachine`](/docs/TicketMachine). Once a ticket has been successfully redeemed, `createLegend` is called
-from [LegendsNFT](/docs/LegendsNFT). Which mints and issues a new Legend NFT token to the ticket redeemer.
-
-
-### Dispenses Promo Ticket
+### closePromoEvent
 ---
 
-### `closePromoEvent(uint256 promoId)` (public)
+> *Close Promo Event*
 
-Close Promo Event
+<br/>
 
+``` sol title="closePromoEvent | public | onlyRole(LAB_TECH)"
+closePromoEvent(uint256 promoId)
+```
 
+Calls `_closePromoEvent` from [**TicketMachine**](./TicketMachine#_closepromoevent).
 
-Calls `_closePromoEvent` from [`TicketMachine`](/docs/TicketMachine).
+:::info Important
 
-:::note
-
-Promo Event must be expired to call, only callable by a `LAB_TECH`
+*Promo event* must be expired to call, only callable by a `LAB_TECH`
 
 :::
 
-### Dispenses Promo Ticket
+
+
+### restoreBlendingSlots
 ---
 
-### `restoreBlendingSlots(uint256 legendId, uint256 regainedSlots)` (public)
+``` sol title="restoreBlendingSlots | public"
+restoreBlendingSlots(uint256 legendId, uint256 regainedSlots)
+```
 
-### Dispenses Promo Ticket
+Calls `restoreBlendingSlots` from [**LegendsRejuvenation**](../rejuvenation/LegendRejuvenation#resto).
+
+
+:::info Important
+
+Function only callable by [`LegendsRejuvenation`](../rejuvenation/LegendRejuvenation#restoreBlendingSlots)
+
+:::
+
+
+### mintLegendaryLegend
 ---
 
-Function only callable by [`LegendsRejuvenation`](/docs/LegendRejuvenation)
+> *A True Legend Is Born..*
 
-### `mintLegendaryLegend(uint256 promoId, address recipient)` (public)
+<br/>
 
-A True Legend Is Born..
+``` sol title="mintLegendaryLegend | public | onlyRole(LAB_ADMIN)"
+mintLegendaryLegend(uint256 promoId, address recipient)
+```
 
-### Dispenses Promo Ticket
----
+Calls [`createLegend`](/docs/LegendsNFT#createLegend) passing `isLegendary` 
+as `(true)`.
+
+:::info Important
+
+In order to create a Legendary, a valid *promo event* must first have a ticket *redeemed* by the calling address
+
+:::
+
+:::tip Note
 
 This function is the only way a *Legendary* Legend NFT can be minted. Only *the* `LAB_ADMIN` can
-create a *Legendary*. Calls [`createLegend`](/docs/LegendsNFT#createLegend) with the `isLegendary` bool
-switched to (true).
-
-:::note
-
-In order to create a Legendary, a valid **Promo Event** must first have a ticket redeemed by the calling address
+create a *Legendary*.
 
 :::
 
 
-### Dispenses Promo Ticket
+### labBurn
 ---
 
-### `labBurn(uint256 amount)` (public)
+> *Destroy LGND Tokens PERMANENTLY*
 
-Destroy LGND Tokens PERMANENTLY
+<br/>
 
-
+``` sol title="labBurn | public | onlyRole(LAB_ADMIN)"
+labBurn(uint256 amount)
+```
 
 Generic function allowing the lab to burn LGND tokens owed by this contract. Only callable by *the* `LAB_ADMIN`.
 
-:::note
+:::tip Note
 
 Could be used to extend functionality prior to a full v2 launch if a concept was thought of
 
 :::
-
-### Dispenses Promo Ticket
----
-### Dispenses Promo Ticket
----
-### `isPromoIncubated(uint256 promoId) → bool` (public)
-
-
-
-Queries whether a PromoEvent permits a Legend to bypass incubation
-
-
-### Dispenses Promo Ticket
 ---
 
-### `isBlendable(uint256 legendId) → bool` (public)
+<br/>
 
 
+## Queries
 
-Queries whether a Legend is blendable or not, [`isBlendable`](/docs/LegendsNFT#isBlendable).
+### isPromoIncubated
+---
+``` sol title="isPromoIncubated | public"
+isPromoIncubated(uint256 promoId) → bool
+```
+
+Queries whether a *promo event* permits a Legend to bypass incubation.
 
 
-### Dispenses Promo Ticket
+### isBlendable
 ---
 
-### `isHatched(uint256 legendId) → bool` (public)
+``` sol title="isBlendable | public"
+isBlendable(uint256 legendId) → bool
+```
 
-### Dispenses Promo Ticket
+Queries whether a Legend is blendable or not, [`isBlendable`](../legend/LegendsNFT#isblendable).
+
+
+### isHatched
 ---
 
-Queries whether a Legend has *hatched* or not, [`isHatched`](/docs/LegendsNFT#isHatched).
+``` sol title="isHatched | public"
+isHatched(uint256 legendId) → bool
+```
 
-### Dispenses Promo Ticket
+Queries whether a Legend has *hatched* or not, [`isHatched`](../legend/LegendsNFT#ishatched).
+
+### isListable
 ---
 
-### `isListable(uint256 legendId) → bool` (public)
+``` sol title="isListable | public"
+isListable(uint256 legendId) → bool
+```
 
+Queries whether a Legend is listable or not, [`isListable`](../legend/LegendsNFT#islistable).
 
-
-Queries whether a Legend is listable or not, [`isListable`](/docs/LegendsNFT#isListable).
-
-### Dispenses Promo Ticket
 ---
 
-### `fetchSeason() → string` (public)
+<br/>
 
+## Getters
 
+```sol title="Private State Variables"
+string private _season = "Phoenix"; | Legendary Labs Season
+
+mapping(uint256 => bool) private _promoIncubated; | promoId → skipIncubation
+```
+
+### fetchSeason
+---
+
+``` sol title="fetchSeason | public"
+fetchSeason() → string
+```
 
 Returns the current **Legendary Labs** Season
 
-### Dispenses Promo Ticket
+### fetchBlendingCount
 ---
 
-### `fetchBlendingCount(uint256 legendId) → uint256` (public)
-
-
+``` sol title="fetchBlendingCount | public"
+fetchBlendingCount(uint256 legendId) → uint256
+```
 
 Returns a given Legend's `blendingInstancesUsed`
 
 
-:::info
+:::note Info
 
-A Legend has (2) variables that are tracked via **Blending*: `blendingInstancesUsed` and `totalOffspringCount`
-`blendingInstancesUsed` is utilized when determining whether a `isBlendable` or not by
-comparing against the [`_blendingLimit`](/docs/LegendsNFT). Whereas `totalOffspring` is utilized
-when determining [`_blendingCost`](/docs/LegendsNFT#blendLegends).
+A Legend has (2) variables that are tracked via *blending*: `blendingInstancesUsed` and `totalOffspringCount`
+* `blendingInstancesUsed` is utilized when determining whether a Legend `isBlendable` or not, by
+comparing against the [`_blendingLimit`](../legend/LegendsNFT#getters). 
+
+Whereas 
+* `totalOffspring` is utilized
+when determining [`_blendingCost`](../legend/LegendsNFT#blendLegends).
 
 :::
 
-### Dispenses Promo Ticket
+### fetchBlendingCost
 ---
 
-### `fetchBlendingCost(uint256 legendId) → uint256` (public)
+``` sol title="fetchBlendingCost | public"
+fetchBlendingCost(uint256 legendId) → uint256
+```
 
+Returns the cost to blend a particular Legend(1)
 
-
-Returns the cost to blend a particular Legend
-
-### Dispenses Promo Ticket
+### fetchRoyaltyRecipient
 ---
 
-### `fetchRoyaltyRecipient(uint256 legendId) → address payable` (public)
-
-
+``` sol title="fetchRoyaltyRecipient | public"
+fetchRoyaltyRecipient(uint256 legendId) → address payable
+```
 
 Returns the original creator of a particular Legend
 
-:::note
+:::info Important
 
-Only Legends created via `[blendLegends`](/docs/LegendsNFT#blendLegends) are eligible to pay royalties to the *creator address*.
-Legends created via `[createLegend`](/docs/LegendsNFT#createLegend) should return the *0 address*.
+Only Legends created via [`blendLegends`](../legend/LegendsNFT#blendLegends) are eligible to pay royalties to the *creator address*.
+
+Legends created via [`createLegend`](../legend/LegendsNFT#createLegend) should return the *zero address*, and take (0%) *royalty fee* from [**LegendsMarketPlace**](../marketplace/LegendsMarketplace).
 
 :::
-
-### Dispenses Promo Ticket
 ---
 
-### `setSeason(string newSeason)` (public)
+<br/>
 
-A New Season Begins..
+## Setters
 
+### setSeason
+---
 
+> *A New Season Begins..*
+
+<br/>
+
+``` sol title="setSeason | public | onlyRole(LAB_ADMIN)"
+setSeason(string newSeason)
+```
 
 Sets a new season. Only callable by *the* `LAB_ADMIN`.
 
-### Dispenses Promo Ticket
+
+
+### setKinBlendingLevel
 ---
 
-### `setKinBlendingLevel(uint256 newKinBlendingLevel)` (public)
+> *Set New Kin Blending Level*
 
-Set New Kin Blending Level
+<br/>
 
+``` sol title="setKinBlendingLevel | public | onlyRole(LAB_ADMIN)"
+setKinBlendingLevel(uint256 newKinBlendingLevel)
+```
+Resets the [`_kinBlendingLevel`](../legend/LegendsNFT/#setblendingrule). Only callable by *the* `LAB_ADMIN`.
 
+:::note Info
+#### Kin Blending Level Codes:
 
-Resets the [`_kinBlendingLevel`](docs/LegendsNFT/#setBlendingRule). Only callable by *the* `LAB_ADMIN`.
-
-:::info Kin Blending Level Codes:
-
-* 0 => **None** Legend can **not** *blend* with either siblings or parents
-* 1 => **Parents** Legend can *blend* with parent Legends but not siblings
-* 2 => **Siblings** Legend has no restrictions on other Legends it can *blend* with
+* 0 &rarr; **None**; Legend can **not** *blend* with either siblings or parents
+* 1 &rarr; **Parents**; Legend can *blend* with parent Legends, but not siblings
+* 2 &rarr; **Siblings**; Legend has no restrictions on other Legends it can *blend* with
 
 :::
 
 
-### Dispenses Promo Ticket
+
+
+### setIncubationViews
 ---
 
-### `setIncubationViews(string[5] newIncubationViews)` (public)
+> *Set New IPFS URLs For The Incubation Chambers*
 
-Set New IPFS URLs For The Incubation Chambers
+<br/>
 
+``` sol title="setIncubationViews | public | onlyRole(LAB_TECH)"
+setIncubationViews(string[5] newIncubationViews)
+```
 
+Allows the resetting of the IPFS URLs assigned to a pre-hatched Legend. Only callable by *the* `LAB_TECH`.
 
-Allows the resetting of the "randomly" chosen IPFS URLs assigned to a pre-hatched Legend. Only callable by *the* `LAB_TECH`.
-
-### Dispenses Promo Ticket
+### setBlendingLimit
 ---
 
-### `setBlendingLimit(uint256 newBlendingLimit)` (public)
+> *Set New Blending Limit*
 
-Set New Blending Limit
+<br/>
 
+``` sol title="setBlendingLimit | public | onlyRole(LAB_ADMIN)"
+setBlendingLimit(uint256 newBlendingLimit)
+```
 
+Resets the [`_blendingLimit`](../legend/LegendsNFT/#setblendingRule). Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_blendingLimit`](docs/LegendsNFT/#setBlendingRule). Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setBaseBlendingCost
 ---
 
-### `setBaseBlendingCost(uint256 newBaseBlendingCost)` (public)
+> *Set New Base Blending Cost*
 
-Set New Base Blending Cost
+<br/>
 
+``` sol title="setBaseBlendingCost | public | onlyRole(LAB_ADMIN)"
+setBaseBlendingCost(uint256 newBaseBlendingCost)
+```
 
+Resets the [`_baseBlendingCost`](../legend/LegendsNFT/#setblendingrule). Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_baseBlendingCost`](docs/LegendsNFT/#setBlendingRule). Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setIncubationPeriod
 ---
 
-### `setIncubationPeriod(uint256 newIncubationPeriod)` (public)
+> *Set New Incubation Period*
 
-Set New Incubation Period
+<br/>
 
+``` sol title="setIncubationPeriod | public | onlyRole(LAB_ADMIN)"
+setIncubationPeriod(uint256 newIncubationPeriod)
+```
 
+Resets the [`_incubationPeriod`](../legend/LegendsNFT/#setblendingrule). Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_incubationPeriod`](docs/LegendsNFT/#setBlendingRule). Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setRoyaltyFee
 ---
 
-### `setRoyaltyFee(uint256 newRoyaltyFee)` (public)
+> *Set New Marketplace Royalty Fee*
 
-Set New Marketplace Royalty Fee
+<br/>
 
+``` sol title="setRoyaltyFee | public | onlyRole(LAB_ADMIN)"
+setRoyaltyFee(uint256 newRoyaltyFee)
+```
 
+Resets the [`_royaltyFee`](../marketplace/LegendsMarketplace/#setmarketplacerule). Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_royaltyFee`](docs/LegendsMarketplace/#setMarketplaceRule). Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setMarketplaceFee
 ---
 
-### `setMarketplaceFee(uint256 newMarketplaceFee)` (public)
+> *Set New Marketplace Fee*
 
-Set New Marketplace Fee
+<br/>
 
+``` sol title="setMarketplaceFee | public | onlyRole(LAB_ADMIN)"
+setMarketplaceFee(uint256 newMarketplaceFee)
+```
 
+Resets the [`_marketplaceFee`](../marketplace/LegendsMarketplace/#setmarketplacerule). Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_marketplaceFee`](docs/LegendsMarketplace/#setMarketplaceRule). Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setOfferDuration
 ---
 
-### `setOfferDuration(uint256 newOfferDuration)` (public)
+> *Set New Marketplace Offer Duration*
 
-Set New Marketplace Offer Duration
+<br/>
 
+``` sol title="setOfferDuration | public | onlyRole(LAB_TECH)"
+setOfferDuration(uint256 newOfferDuration)
+```
 
+Resets the [`_offerDuration`](../marketplace/LegendsMarketplace/#setmarketplacerule). Only callable by a `LAB_TECH`.
 
-Resets the [`_offerDuration`](docs/LegendsMarketplace/#setMarketplaceRule). Only callable by a `LAB_TECH`.
-
-### Dispenses Promo Ticket
+### setAuctionDurations
 ---
 
-### `setAuctionDurations(uint256[3] newAuctionDurations)` (public)
+> *Set New Marketplace Auction Durations*
 
-Set New Marketplace Auction Durations
+<br/>
 
+``` sol title="setAuctionDurations | public | onlyRole(LAB_ADMIN)"
+setAuctionDurations(uint256[3] newAuctionDurations)
+```
 
+Resets the [`_auctionDurations`](../marketplace/LegendsMarketplace/#setmarketplacerule) array. Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_auctionDurations`](docs/LegendsMarketplace/#setMarketplaceRule) array. Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setAuctionExtension
 ---
 
-### `setAuctionExtension(uint256 newAuctionExtension)` (public)
+> *Set New Marketplace Auction Extension Duration*
 
-Set New Marketplace Auction Extension Duration
+<br/>
 
+``` sol title="setAuctionExtension | public | onlyRole(LAB_ADMIN)"
+setAuctionExtension(uint256 newAuctionExtension)
+```
 
+Resets the [`_auctionExtension`](../marketplace/LegendsMarketplace/#setmarketplacerule) duration. Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_auctionExtension`](docs/LegendsMarketplace/#setMarketplaceRule) duration. Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setMinimumSecure
 ---
 
-### `setMinimumSecure(uint256 newMinimumSecure)` (public)
+> *Set New Rejuvenation Minimum Secure*
 
-Set New Rejuvenation Minimum Secure
+<br/>
 
+``` sol title="setMinimumSecure | public | onlyRole(LAB_ADMIN)"
+setMinimumSecure(uint256 newMinimumSecure)
+```
 
+Resets the [`_minimumSecure`](../rejuvenation/LegendsRejuvenation#setminimumsecure) amount. Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_minimumSecure`](docs/LegendsRejuvenation#setMinimumSecure) amount. Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setMaxMultiplier
 ---
 
-### `setMaxMultiplier(uint256 newMaxMultiplier)` (public)
+> *Set New Rejuvenation Max Multiplier*
 
-Set New Rejuvenation Max Multiplier
+<br/>
 
+``` sol title="setMaxMultiplier | public | onlyRole(LAB_ADMIN)"
+setMaxMultiplier(uint256 newMaxMultiplier)
+```
 
+Resets the [`_maxMultiplier`](../rejuvenation/LegendsRejuvenation#setmaxmultiplier). Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_maxMultiplier`](docs/LegendsRejuvenation#setMaxMultiplier). Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setReJuPerBlock
 ---
 
-### `setReJuPerBlock(uint256 newReJuEmissionRate)` (public)
+> *Set New Rejuvenation ReJu Emission Rate*
 
-Set New Rejuvenation ReJu Emission Rate
+<br/>
+
+``` sol title="setReJuPerBlock | public | onlyRole(LAB_ADMIN)"
+setReJuPerBlock(uint256 newReJuEmissionRate)
+```
 
 
+Resets the [`_reJuPerBlock`](../rejuvenation/LegendsRejuvenation#setrejuperblock) rate. Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_reJuPerBlock`](docs/LegendsRejuvenation#setReJuPerBlock) rate. Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+### setReJuNeededPerSlot
 ---
 
-### `setReJuNeededPerSlot(uint256 newReJuNeededPerSlot)` (public)
+> *Set New Rejuvenation Slot Threshold*
 
-Set New Rejuvenation Slot Threshold
+<br/>
 
+``` sol title="setReJuNeededPerSlot | public | onlyRole(LAB_ADMIN)"
+setReJuNeededPerSlot(uint256 newReJuNeededPerSlot)
+```
 
+Resets the [`_ReJuNeededPerSlot`](../rejuvenation/LegendsRejuvenation#setrejuneededperslot) to restore a *blending instance*. Only callable by *the* `LAB_ADMIN`.
 
-Resets the [`_ReJuNeededPerSlot`](docs/LegendsRejuvenation#setReJuNeededPerSlot) to restore a *blending instance*. Only callable by *the* `LAB_ADMIN`.
-
-### Dispenses Promo Ticket
+## Terminology
 ---
 
-### `transferLaboratoryAdmin(address newAdmin)` (public)
-
-There Can Only Be One..
-
-
-
-Only callable by *the* `LAB_ADMIN`. Function calls *this* contract to revoke the current `LAB_ADMIN`'s
-authorization and grant authorization to the incoming admin in the same block.
-
-:::note
-
-Many of the functions the `LAB_ADMIN` has authorization to call should only be called rarely, if ever.
-In order to prevent more than (1) `LAB_ADMIN` existing at one time, *this* contract is given sole ability
-to revoke and grant `LAB_ADMIN` access. This should be the only way a `LAB_ADMIN` role can be granted.
-
-:::
-
-:::warning
-
-By calling this function you will give up you privileges as `Lab_ADMIN`. If the `newAdmin`is supplied the *0 address*,
-a burn address, or any otherwise inaccessible address, full control over the Legendary Labs project would be renounced.
-
-:::
+ * *Restricted Promo Event* &rarr; A *promo event* where only addresses assigned `LAB_TECH` access can dispense *promo tickets*.
+ * *Unrestricted Promo Event* &rarr; A *promo event* where any address can dispense up to (1) *promo ticket*.
+ * *Creator Address* &rarr; Any non-*zero address*, resposible for *blending* two Legends together. This address will recieve *royalties* every time their Legend NFT is sold on the [**LegendsMarketplace](../marketplace/LegendsMarketplace). After the first initial sale, where the *creator address* is listing. 
+ * *Zero Address* &rarr; `0x0000000000000000000000000000000000000000` **The Black Hole**, any Legend NFT or LGND tokens sent to this address can **NEVER** be retrieved.
