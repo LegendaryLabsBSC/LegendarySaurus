@@ -14,17 +14,17 @@ mapping(uint256 => mapping(address => bool)) private _claimedPromo; | promoId �
 mapping(uint256 => mapping(address => uint256)) private _promoTickets; | promoId → recipient → ticketCount
 ```
 
-The **Ticket Machine** contract is used primarily to create Legendary Labs *Promo Events*. Promo Events are the
-only other method in which new Legend NFTs can be created, when not being create from *blending*, as science intended.
+The **TicketMachine** contract is used primarily to create Legendary Labs *promo events*. *Promo events* are the
+only other method in which new Legend NFTs can be created, when not being create from *blending*.
 
 
 :::important
 
-* *Promo Events* are required to have a duration imposed on them. Once this duration is reached, the *promo event* will
+* *Promo events* are required to have a duration imposed on them. Once this duration is reached, the *promo event* will
  be consider *expired*. While an *expired promo event*, will no longer have to ability to dispense new tickets, addresses
  that are still credited *promo tickets* can redeem those tickets for a Legend NFT.
 
-* *Promo Events* that have been closed via a `LAB_TECH` manually calling [`closePromoEvent`](./LegendsLaboratory#closePromoEvent)
+* *Promo events* that have been closed via a `LAB_TECH` manually calling [`closePromoEvent`](./LegendsLaboratory#closepromoevent)
 will be unable to dispense new tickets or redeem existing tickets.
 
 :::
@@ -33,7 +33,7 @@ will be unable to dispense new tickets or redeem existing tickets.
 :::tip Note
 
 While we will initially use this contract to mint new Legends through *promo events*, the concept of being able to issue
-and redeem a "ticket" of sorts to grant access, can certainly be repurposed through new features we may come up with.
+and redeem a "ticket" to grant access, can certainly be repurposed through new features we may come up with.
 
 :::
 
@@ -67,9 +67,9 @@ struct Counters.Counter ticketsRedeemed
  * `promoName` &rarr; Non-numerical ID of a Legendary Labs *promo event*
  * `promoId` &rarr; Numerical ID of a Legendary Labs *promo event*
  * `startTime` &rarr; Block/UNIX time the *promo event* starts
- * `expireTime` &rarr; `promoEvent.startTime' + 'duration`
+ * `expireTime` &rarr; `promoEvent.startTime` + `duration`
  * `isUnrestricted` &rarr; Indicates if a *promo event* can have tickets dispensed by any address or not
- * `isTicketLimit` &rarr; Indicates if a *promo event* has set a max number of *tickets* to be dispensed or not
+ * `isTicketLimit` &rarr; Indicates if a *promo event* has a set max number of *promo tickets* to be dispensed or not
  * `isPromoClosed` &rarr; Indicates if a *promo event* has closed or not
  * `ticketsClaimed` &rarr; Number of *promo tickets* that have been *dispensed* from the associated *promo event*
  * `ticketsRedeemed` &rarr; Number of *promo tickets* that have been *redeemed* from the associated *promo event*
@@ -83,7 +83,7 @@ struct Counters.Counter ticketsRedeemed
 
 :::tip Note
 
-All functions in the **Ticket Machine** contract are internal
+All functions in the **TicketMachine** contract are internal
 
 :::
 
@@ -101,7 +101,7 @@ Creates a new *promo event* which is able to dispense and redeem *promo tickets*
 :::important
 
 A *promo event* must have a valid `duration` in order to function correctly, however,
-a *max ticket limit* is not required. Passing (0) for `maxTickets` will result in a
+a *max ticket limit* is not required. Passing `(0)` for `maxTickets` will result in a
 *promo event* with no *max ticket limit*.
 
 :::
@@ -124,7 +124,7 @@ Dispenses a *promo ticket* that can then be redeemed to mint a Legend NFT.
 
 :::important
 
-*Unrestricted promo events* will reject any value other than (1) for `ticketAmount`
+*Unrestricted promo events* will reject any value other than `(1)` for `ticketAmount`
 
 :::
 
@@ -140,7 +140,7 @@ Called from [**LegendsLaboratory**](./LegendsLaboratory#redeempromoticket)
 _redeemPromoTicket(uint256 promoId, address recipient)
 ```
 
-Redeems (1) *promo ticket* dispensed from a *promo event*
+Redeems (1) *promo ticket* previously dispensed from a *promo event*
 
 
 

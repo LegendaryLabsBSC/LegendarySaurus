@@ -13,9 +13,13 @@ import "./TicketMachine.sol";
 
 
 
-Primary controller contract for the Legendary Labs Project
+Primary controller contract for the Legendary Labs Project. This is the only contract "manually" deployed, which then deploys all additional contracts for the project. Handles the setting of Lab state variables, and is the primary route through which other contracts in the project communicate with each other. 
 
+:::tip Note
 
+The majority of functions in this contract can only be called by the two [**Access Control**](./Access%20Control) roles: `LAB_ADMIN` and `LAB_TECH`.
+
+:::
 
 
 <br/>
@@ -25,7 +29,7 @@ Primary controller contract for the Legendary Labs Project
 ### createPromoEvent
 ---
 
-> *Creates A New Legendary Labs Promo Event!*
+> *Create A New Legendary Labs Promo Event*
 
 <br/>
 
@@ -38,22 +42,26 @@ Calls `_createPromoEvent` from [`TicketMachine`](./TicketMachine#_createpromoeve
 
 :::important
 
-**promo events** can be created (1) of (2) ways:
+#### *Promo events* can be created as either:
  1. Unrestricted Promo Event &rarr; `isUnrestricted == true`
  2. Restricted Promo Event &rarr; `isUnrestricted == false`
 
+:::
+
+:::important
+
 [`TicketMachine`](./TicketMachine) had been extended by this contract with `_promoIncubated`. Which allows
-the promo-creator to specify whether Legends minted from that particular event are required to undergo incubation
+the caller to specify whether Legends minted from that particular event are required to undergo incubation
 prior to being hatched. 
 
 If `skipIncubation` is passed `(true)`, all Legend NFTs created via that *promo event* will
-be allowed to bypass the incubation duration and have [`hatchLegend`](../legend/LegendsNFT#hatchLegend) called immediately after being minted.
+be allowed to bypass the incubation duration and have [`hatchLegend`](../legend/LegendsNFT#hatchlegend) called immediately after being minted.
 
 :::
 
 :::tip Note
 
-The only addresses that should be able to call this function is one approved with the `LAB_TECH` **Access Control Role**.
+The only addresses that should be able to call this function is one approved with the `LAB_TECH` **Access Control** role.
 
 To check if an address is approved to use this function `hasRole(LAB_TECH, account)` can be called.
 
@@ -61,25 +69,25 @@ To check if an address is approved to use this function `hasRole(LAB_TECH, accou
 
 :::tip Note
 
-If `maxTickets` is set to (0) no *max *ticket limit** will be applied to the event, only a duration.
-If `maxTickets` is passed a value greater than (0) a *max *ticket limit** will be applied, and will override the remaining duration if met.
+If `maxTickets` is set to `(0)` no *max ticket limit* will be applied to the event, only a duration.
+If `maxTickets` is passed a value greater than `(0)` a *max ticket limit* will be applied, and will override the remaining duration if met.
 
 :::
 
 :::caution
 
-For **Legendary Labs** purposes it is generally **NOT** recommended to include a `maxTicket` value greater
-than (0) for *unrestricted promo events*. Due to the fact that there is currently no way to prevent an individual
+For **Legendary Labs'** purposes it is generally **NOT** recommended to include a `maxTicket` value greater
+than `(0)` for *unrestricted promo events*. Due to the fact that there is currently no way to prevent an individual
 from using multiple addresses to claim multiple tickets. 
 
 While this still holds true regardless of a *max ticket limit*
 existing, by only limiting a *promo event* with a `duration` we remove the possibility of one individual claiming **all**
-of *promo tickets*, and ruining the fun for every one else.
+of the *promo tickets*, and ruining the fun for every one else.
 
-The `maxTickets` functionality could be used to create *promo events* in a more centralized/organized environment
+The `maxTickets` functionality could be used to create *unrestricted promo events* in a more centralized/organized environment
 where the organizers can verify one address per individual.
 
-However, we will primarily use `maxTickets` alongside *restricted events*, and more likely gear it towards internal accountability.
+However, we will primarily use `maxTickets` alongside *restricted promo events*, and likely gear it towards internal accountability.
 
 :::
 
@@ -103,16 +111,16 @@ Calls `_dispensePromoTicket` from [`TicketMachine`](./TicketMachine#_dispensepro
 
 :::note Info
 
-#### In an *Unrestricted* *promo event*:
+#### In an *Unrestricted Promo Event *:
 
- * Players have the opportunity to call `dispensePromoTicket` without having admin access.
+ * Players have the opportunity to call `dispensePromoTicket` without needing authorization.
  * Tickets can only be dispensed to the calling address, as `_recipient` is automatically set to `msg.sender`
- * Each address is permitted to claim (1) ticket from the **Ticket Machine**.
+ * Each address is permitted to claim (1) ticket from the **TicketMachine**.
 
-#### In an *Restricted* *promo event*:
+#### In a *Restricted promo event *:
 
- * Only addresses with `LAB_TECH` access are allowed to dispense tickets.
- * The admin-caller has the ability to dispense a ticket and specify a receiving address other than their own.
+ * Only addresses with `LAB_TECH` authorization are allowed to call `dispensePromoTicket`.
+ * The caller has the ability to dispense a ticket and specify a receiving address other than their own.
  * More than (1) ticket can be dispensed per call, however, the receiving address must stay the same.
 :::
 
@@ -154,7 +162,7 @@ Calls `_closePromoEvent` from [**TicketMachine**](./TicketMachine#_closepromoeve
 
 :::important
 
-*Promo event* must be expired to call, only callable by a `LAB_TECH`
+*Promo event* must be expired to call.
 
 :::
 
@@ -172,7 +180,7 @@ Calls `restoreBlendingSlots` from [**LegendsRejuvenation**](../rejuvenation/Lege
 
 :::important
 
-Function only callable by [`LegendsRejuvenation`](../rejuvenation/LegendRejuvenation#restoreBlendingSlots)
+Function only callable by `LegendsRejuvenation`.
 
 :::
 
@@ -188,8 +196,7 @@ Function only callable by [`LegendsRejuvenation`](../rejuvenation/LegendRejuvena
 mintLegendaryLegend(uint256 promoId, address recipient)
 ```
 
-Calls [`createLegend`](/docs/LegendsNFT#createLegend) passing `isLegendary` 
-as `(true)`.
+Calls [`createLegend`](../legend/LegendsNFT#createlegend), with `isLegendary == true`.
 
 :::important
 
@@ -197,7 +204,7 @@ In order to create a Legendary, a valid *promo event* must first have a ticket *
 
 :::
 
-:::tip Note
+:::important
 
 This function is the only way a *Legendary* Legend NFT can be minted. Only *the* `LAB_ADMIN` can
 create a *Legendary*.
@@ -216,7 +223,7 @@ create a *Legendary*.
 labBurn(uint256 amount)
 ```
 
-Generic function allowing the lab to burn LGND tokens owed by this contract. Only callable by *the* `LAB_ADMIN`.
+Generic burn function which allows the `LAB_ADMIN` to burn LGND tokens owed by this contract.
 
 :::tip Note
 
@@ -274,7 +281,7 @@ Queries whether a Legend is listable or not, [`isListable`](../legend/LegendsNFT
 ## Getters
 
 ```sol title="Private State Variables"
-string private _season = "Phoenix"; | Legendary Labs Season
+string private _season = "Phoenix"; 
 
 mapping(uint256 => bool) private _promoIncubated; | promoId → skipIncubation
 ```
@@ -295,18 +302,18 @@ Returns the current **Legendary Labs** Season
 fetchBlendingCount(uint256 legendId) → uint256
 ```
 
-Returns a given Legend's `blendingInstancesUsed`
+Returns a given Legend's `blendingInstancesUsed`, used by [**LegendsRejuvenation**](../rejuvenation/LegendRejuvenation#enterrejuvenationpod). For regular queries of `_legendsMetadata.blendingInstancesUsed` [`fetchLegendMetadata`](../legend/LegendsNFT#fetchlegendmetadata) can be used.
 
 
 :::note Info
 
 A Legend has (2) variables that are tracked via *blending*: `blendingInstancesUsed` and `totalOffspringCount`
 * `blendingInstancesUsed` is utilized when determining whether a Legend `isBlendable` or not, by
-comparing against the [`_blendingLimit`](../legend/LegendsNFT#getters). 
+comparing against the [`_blendingLimit`](../legend/LegendsNFT#isblendable). 
 
 Whereas 
 * `totalOffspring` is utilized
-when determining [`_blendingCost`](../legend/LegendsNFT#blendLegends).
+when determining [`_blendingCost`](../legend/LegendsNFT#blendlegends).
 
 :::
 
@@ -317,7 +324,7 @@ when determining [`_blendingCost`](../legend/LegendsNFT#blendLegends).
 fetchBlendingCost(uint256 legendId) → uint256
 ```
 
-Returns the cost to blend a particular Legend(1)
+Returns the cost to blend a particular Legend(1). Also used by [**LegendsMatchingBoard**](../matching/LegendsMatchingBoard#mactchwithlegend).
 
 ### fetchRoyaltyRecipient
 ---
@@ -326,13 +333,14 @@ Returns the cost to blend a particular Legend(1)
 fetchRoyaltyRecipient(uint256 legendId) → address payable
 ```
 
-Returns the original creator of a particular Legend
+Returns the original creator of a particular Legend, used by [**LegendsMarketplace**](../marketplace/LegendsMarketplace). For regular queries of `_legendsMetadata.legendCreator` [`fetchLegendMetadata`](../legend/LegendsNFT#fetchlegendmetadata) can be used.
+
 
 :::important
 
-Only Legends created via [`blendLegends`](../legend/LegendsNFT#blendLegends) are eligible to pay royalties to the *creator address*.
+Only Legends created via [`blendLegends`](../legend/LegendsNFT#blendlegends) are eligible to pay royalties to the *creator address*.
 
-Legends created via [`createLegend`](../legend/LegendsNFT#createLegend) should return the *zero address*, and take (0%) *royalty fee* from [**LegendsMarketPlace**](../marketplace/LegendsMarketplace).
+Legends created via [`createLegend`](../legend/LegendsNFT#createlegend) should return the *zero address*, and take (0%) *royalty fee* from [**LegendsMarketPlace**](../marketplace/LegendsMarketplace).
 
 :::
 ---
@@ -352,7 +360,7 @@ Legends created via [`createLegend`](../legend/LegendsNFT#createLegend) should r
 setSeason(string newSeason)
 ```
 
-Sets a new season. Only callable by *the* `LAB_ADMIN`.
+Sets a new season
 
 
 
@@ -366,7 +374,7 @@ Sets a new season. Only callable by *the* `LAB_ADMIN`.
 ``` sol title="setKinBlendingLevel | public | onlyRole(LAB_ADMIN)"
 setKinBlendingLevel(uint256 newKinBlendingLevel)
 ```
-Resets the [`_kinBlendingLevel`](../legend/LegendsNFT/#setblendingrule). Only callable by *the* `LAB_ADMIN`.
+Resets the [`_kinBlendingLevel`](../legend/LegendsNFT/#setblendingrule).
 
 :::note Info
 #### Kin Blending Level Codes:
@@ -391,8 +399,7 @@ Resets the [`_kinBlendingLevel`](../legend/LegendsNFT/#setblendingrule). Only ca
 setIncubationViews(string[5] newIncubationViews)
 ```
 
-Allows the resetting of the IPFS URLs assigned to a pre-hatched Legend. Only callable by *the* `LAB_TECH`.
-
+Allows the resetting of the IPFS URLs used by `_incubationViews`.
 ### setBlendingLimit
 ---
 
@@ -404,7 +411,7 @@ Allows the resetting of the IPFS URLs assigned to a pre-hatched Legend. Only cal
 setBlendingLimit(uint256 newBlendingLimit)
 ```
 
-Resets the [`_blendingLimit`](../legend/LegendsNFT/#setblendingRule). Only callable by *the* `LAB_ADMIN`.
+Resets the [`_blendingLimit`](../legend/LegendsNFT#setblendingrule)
 
 ### setBaseBlendingCost
 ---
@@ -417,7 +424,7 @@ Resets the [`_blendingLimit`](../legend/LegendsNFT/#setblendingRule). Only calla
 setBaseBlendingCost(uint256 newBaseBlendingCost)
 ```
 
-Resets the [`_baseBlendingCost`](../legend/LegendsNFT/#setblendingrule). Only callable by *the* `LAB_ADMIN`.
+Resets the [`_baseBlendingCost`](../legend/LegendsNFT/#setblendingrule).
 
 ### setIncubationPeriod
 ---
@@ -430,7 +437,7 @@ Resets the [`_baseBlendingCost`](../legend/LegendsNFT/#setblendingrule). Only ca
 setIncubationPeriod(uint256 newIncubationPeriod)
 ```
 
-Resets the [`_incubationPeriod`](../legend/LegendsNFT/#setblendingrule). Only callable by *the* `LAB_ADMIN`.
+Resets the [`_incubationPeriod`](../legend/LegendsNFT/#setblendingrule).
 
 ### setRoyaltyFee
 ---
@@ -443,7 +450,7 @@ Resets the [`_incubationPeriod`](../legend/LegendsNFT/#setblendingrule). Only ca
 setRoyaltyFee(uint256 newRoyaltyFee)
 ```
 
-Resets the [`_royaltyFee`](../marketplace/LegendsMarketplace/#setmarketplacerule). Only callable by *the* `LAB_ADMIN`.
+Resets the [`_royaltyFee`](../marketplace/LegendsMarketplace/#setmarketplacerule).
 
 ### setMarketplaceFee
 ---
@@ -456,8 +463,7 @@ Resets the [`_royaltyFee`](../marketplace/LegendsMarketplace/#setmarketplacerule
 setMarketplaceFee(uint256 newMarketplaceFee)
 ```
 
-Resets the [`_marketplaceFee`](../marketplace/LegendsMarketplace/#setmarketplacerule). Only callable by *the* `LAB_ADMIN`.
-
+Resets the [`_marketplaceFee`](../marketplace/LegendsMarketplace/#setmarketplacerule).
 ### setOfferDuration
 ---
 
@@ -469,7 +475,7 @@ Resets the [`_marketplaceFee`](../marketplace/LegendsMarketplace/#setmarketplace
 setOfferDuration(uint256 newOfferDuration)
 ```
 
-Resets the [`_offerDuration`](../marketplace/LegendsMarketplace/#setmarketplacerule). Only callable by a `LAB_TECH`.
+Resets the [`_offerDuration`](../marketplace/LegendsMarketplace/#setmarketplacerule).
 
 ### setAuctionDurations
 ---
@@ -482,7 +488,7 @@ Resets the [`_offerDuration`](../marketplace/LegendsMarketplace/#setmarketplacer
 setAuctionDurations(uint256[3] newAuctionDurations)
 ```
 
-Resets the [`_auctionDurations`](../marketplace/LegendsMarketplace/#setmarketplacerule) array. Only callable by *the* `LAB_ADMIN`.
+Resets the [`_auctionDurations`](../marketplace/LegendsMarketplace/#setmarketplacerule) array.
 
 ### setAuctionExtension
 ---
@@ -495,7 +501,7 @@ Resets the [`_auctionDurations`](../marketplace/LegendsMarketplace/#setmarketpla
 setAuctionExtension(uint256 newAuctionExtension)
 ```
 
-Resets the [`_auctionExtension`](../marketplace/LegendsMarketplace/#setmarketplacerule) duration. Only callable by *the* `LAB_ADMIN`.
+Resets the [`_auctionExtension`](../marketplace/LegendsMarketplace/#setmarketplacerule) duration.
 
 ### setMinimumSecure
 ---
@@ -508,7 +514,7 @@ Resets the [`_auctionExtension`](../marketplace/LegendsMarketplace/#setmarketpla
 setMinimumSecure(uint256 newMinimumSecure)
 ```
 
-Resets the [`_minimumSecure`](../rejuvenation/LegendsRejuvenation#setminimumsecure) amount. Only callable by *the* `LAB_ADMIN`.
+Resets the [`_minimumSecure`](../rejuvenation/LegendsRejuvenation#setminimumsecure) amount.
 
 ### setMaxMultiplier
 ---
@@ -521,7 +527,7 @@ Resets the [`_minimumSecure`](../rejuvenation/LegendsRejuvenation#setminimumsecu
 setMaxMultiplier(uint256 newMaxMultiplier)
 ```
 
-Resets the [`_maxMultiplier`](../rejuvenation/LegendsRejuvenation#setmaxmultiplier). Only callable by *the* `LAB_ADMIN`.
+Resets the [`_maxMultiplier`](../rejuvenation/LegendsRejuvenation#setmaxmultiplier).
 
 ### setReJuPerBlock
 ---
@@ -535,7 +541,7 @@ setReJuPerBlock(uint256 newReJuEmissionRate)
 ```
 
 
-Resets the [`_reJuPerBlock`](../rejuvenation/LegendsRejuvenation#setrejuperblock) rate. Only callable by *the* `LAB_ADMIN`.
+Resets the [`_reJuPerBlock`](../rejuvenation/LegendsRejuvenation#setrejuperblock) rate.
 
 ### setReJuNeededPerSlot
 ---
@@ -548,7 +554,7 @@ Resets the [`_reJuPerBlock`](../rejuvenation/LegendsRejuvenation#setrejuperblock
 setReJuNeededPerSlot(uint256 newReJuNeededPerSlot)
 ```
 
-Resets the [`_ReJuNeededPerSlot`](../rejuvenation/LegendsRejuvenation#setrejuneededperslot) to restore a *blending instance*. Only callable by *the* `LAB_ADMIN`.
+Resets the [`_ReJuNeededPerSlot`](../rejuvenation/LegendsRejuvenation#setrejuneededperslot) to restore a *blending instance*.
 
 ## Terminology
 ---
