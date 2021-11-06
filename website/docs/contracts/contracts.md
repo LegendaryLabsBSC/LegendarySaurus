@@ -12,7 +12,10 @@ Get started by **creating a new site**.
 
 Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
 
-## Generate a new site
+<br/>
+
+
+## Front End
 
 Generate a new Docusaurus site using the **classic template**:
 
@@ -20,7 +23,10 @@ Generate a new Docusaurus site using the **classic template**:
 npm init docusaurus@latest my-website classic
 ```
 
-## Start your site
+<br/>
+
+
+## Back End
 
 Run the development server:
 
@@ -34,5 +40,14 @@ Your site starts at `http://localhost:3000`.
 
 Open `docs/contracts.md` and edit some lines: the site **reloads automatically** and display your changes.
 
+<br/>
+
+
+## HardHat
+
+
+<br/>
+
 ## Glossary Of Terms
+###### Terms throughout all Legendary contracts
 ---

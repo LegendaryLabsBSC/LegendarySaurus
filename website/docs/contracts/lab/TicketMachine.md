@@ -4,6 +4,16 @@
 import "@openzeppelin/contracts/utils/Counters.sol";
 ```
 
+```sol title="Private State Variables"
+mapping(uint256 => PromoEvent) internal _promoEvent;| promoId → PromoEvent
+
+mapping(uint256 => uint256) internal _maxTicketsDispensable; | promoId → maxTicketAmount
+
+mapping(uint256 => mapping(address => bool)) private _claimedPromo; | promoId → recipient → isClaimed
+
+mapping(uint256 => mapping(address => uint256)) private _promoTickets; | promoId → recipient → ticketCount
+```
+
 The **Ticket Machine** contract is used primarily to create Legendary Labs *Promo Events*. Promo Events are the
 only other method in which new Legend NFTs can be created, when not being create from *blending*, as science intended.
 
@@ -61,8 +71,8 @@ struct Counters.Counter ticketsRedeemed
  * `isUnrestricted` &rarr; Indicates if a *promo event* can have tickets dispensed by any address or not
  * `isTicketLimit` &rarr; Indicates if a *promo event* has set a max number of *tickets* to be dispensed or not
  * `isPromoClosed` &rarr; Indicates if a *promo event* has closed or not
- * `ticketsClaimed` &rarr; Total number of times a Legend NFT has created a *child Legend*. Can never be decreased.
- * `ticketsRedeemed` &rarr; Address of Legend NFT creator. Legends created via a *promo event* will be assigned the *zero address*.
+ * `ticketsClaimed` &rarr; Number of *promo tickets* that have been *dispensed* from the associated *promo event*
+ * `ticketsRedeemed` &rarr; Number of *promo tickets* that have been *redeemed* from the associated *promo event*
  
 :::
 ---
@@ -171,15 +181,7 @@ Returns if a given address has *dispensed* a ticket from a given *promo event* o
 
 ## Getters
 
-```sol title="Private State Variables"
-mapping(uint256 => PromoEvent) internal _promoEvent;| promoId → PromoEvent
 
-mapping(uint256 => uint256) internal _maxTicketsDispensable; | promoId → maxTicketAmount
-
-mapping(uint256 => mapping(address => bool)) private _claimedPromo; | promoId → recipient → isClaimed
-
-mapping(uint256 => mapping(address => uint256)) private _promoTickets; | promoId → recipient → ticketCount
-```
 
 
 

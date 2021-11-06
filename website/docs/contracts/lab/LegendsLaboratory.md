@@ -36,7 +36,7 @@ uint256 maxTickets, bool skipIncubation)
 
 Calls `_createPromoEvent` from [`TicketMachine`](./TicketMachine#_createpromoevent). Can only be called by a [`LAB_TECH`](./Access%20Control#terms).
 
-:::info Important
+:::important
 
 **promo events** can be created (1) of (2) ways:
  1. Unrestricted Promo Event &rarr; `isUnrestricted == true`
@@ -152,7 +152,7 @@ closePromoEvent(uint256 promoId)
 
 Calls `_closePromoEvent` from [**TicketMachine**](./TicketMachine#_closepromoevent).
 
-:::info Important
+:::important
 
 *Promo event* must be expired to call, only callable by a `LAB_TECH`
 
@@ -170,7 +170,7 @@ restoreBlendingSlots(uint256 legendId, uint256 regainedSlots)
 Calls `restoreBlendingSlots` from [**LegendsRejuvenation**](../rejuvenation/LegendRejuvenation#resto).
 
 
-:::info Important
+:::important
 
 Function only callable by [`LegendsRejuvenation`](../rejuvenation/LegendRejuvenation#restoreBlendingSlots)
 
@@ -191,7 +191,7 @@ mintLegendaryLegend(uint256 promoId, address recipient)
 Calls [`createLegend`](/docs/LegendsNFT#createLegend) passing `isLegendary` 
 as `(true)`.
 
-:::info Important
+:::important
 
 In order to create a Legendary, a valid *promo event* must first have a ticket *redeemed* by the calling address
 
@@ -328,7 +328,7 @@ fetchRoyaltyRecipient(uint256 legendId) → address payable
 
 Returns the original creator of a particular Legend
 
-:::info Important
+:::important
 
 Only Legends created via [`blendLegends`](../legend/LegendsNFT#blendLegends) are eligible to pay royalties to the *creator address*.
 
