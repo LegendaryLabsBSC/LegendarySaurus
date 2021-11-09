@@ -144,7 +144,7 @@ redeemPromoTicket(uint256 promoId)
 ```
 
 Calls `_redeemPromoTicket` from [`TicketMachine`](./TicketMachine#_redeempromoticket). Once a ticket has been successfully redeemed, `createLegend` is called
-from [LegendsNFT](../legend/LegendsNFT#createlegend).
+from [**LegendsNFT**](../legend/LegendsNFT#createlegend).
 
 
 ### closePromoEvent
@@ -561,5 +561,5 @@ Resets the [`_ReJuNeededPerSlot`](../rejuvenation/LegendsRejuvenation#setrejunee
 
  * *Restricted Promo Event* &rarr; A *promo event* where only addresses assigned `LAB_TECH` access can dispense *promo tickets*.
  * *Unrestricted Promo Event* &rarr; A *promo event* where any address can dispense up to (1) *promo ticket*.
- * *Creator Address* &rarr; Any non-*zero address*, resposible for *blending* two Legends together. This address will recieve *royalties* every time their Legend NFT is sold on the [**LegendsMarketplace](../marketplace/LegendsMarketplace). After the first initial sale, where the *creator address* is listing. 
+ * *Creator Address* &rarr; Any non-*zero address*, resposible for *blending* two Legends together. This address will recieve *royalties* every time their Legend NFT is sold on the [**LegendsMarketplace**](../marketplace/LegendsMarketplace). After the first initial sale, where the *creator address* is listing. 
  * *Zero Address* &rarr; `0x0000000000000000000000000000000000000000` **The Black Hole**, any Legend NFT or LGND tokens sent to this address can **NEVER** be retrieved.

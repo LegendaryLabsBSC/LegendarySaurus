@@ -56,24 +56,24 @@ const config = {
             label: 'Contracts',
           }, {
             type: 'doc',
-            docId: 'under-construction',
+            docId: 'Page Coming Soon',
             position: 'left',
             label: 'Front End',
           },
           {
             type: 'doc',
-            docId: 'under-construction',
+            docId: 'Page Coming Soon',
             position: 'left',
             label: 'Back End',
           },
           {
             type: 'doc',
-            docId: 'under-construction',
+            docId: 'Page Coming Soon',
             position: 'left',
             label: 'Generator',
           }, {
             type: 'doc',
-            docId: 'api/intoapi',
+            docId: 'Page Coming Soon',
             position: 'left',
             label: 'API',
           },

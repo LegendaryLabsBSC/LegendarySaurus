@@ -1,5 +1,5 @@
 
-:::caution
+:::warning
     
 Any functionality that would allow a **Legendary Labs** admin to modify another player's asset or blacklist addresses should be used **EXTREMELY** sparingly, if ever. Smart Contracts should be designed well enough to prevent any unwanted behavior prior to deploying.
      
@@ -12,7 +12,7 @@ Any functionality that would allow a **Legendary Labs** admin to modify another 
 ### Reset Legend Name
 ---
 
-Unfortunately, due to the [naming vulnerability](docs/vulnerabilities#naming), an admin ability to reset a Legend's name,
+Unfortunately, due to the [naming vulnerability](../../info/Potential%20Vulnerabilities#naming), an admin ability to reset a Legend's name,
 with the permission of the community, was included in the **LegendaryLaboratory** contract.
 
 :::important
@@ -20,6 +20,7 @@ with the permission of the community, was included in the **LegendaryLaboratory*
 The **Legendary Labs** community will have the true power to determine what they find offensive. While an admin may find a particular name offensive, if there are not enough community members that have called the `reportVulgarLegend` function on the same `legendId`, no admin will be allowed to call `resetLegendName`.
 
 :::
+
 
 <br/>     
 
@@ -74,5 +75,16 @@ setReportThreshold(uint256 newReportThreshold)
 
 
 Resets the `_reportThreshold`.
+
+<br/>
+
+#### NameReported
+
+
+``` sol title="NameReported"
+NameReported(uint256 legendId, uint256 reportCount)
+```
+
+Emitted when a Legend has its name reported.
 
 ---

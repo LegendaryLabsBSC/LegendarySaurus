@@ -8,8 +8,7 @@ const FeatureList = [
     Svg: require('../../static/img/update-repeat-svgrepo-com.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        See any updates regarding the Legendary Labs project all in one place!
       </>
     ),
   },
@@ -29,8 +28,9 @@ const FeatureList = [
     Svg: require('../../static/img/test-tube-svgrepo-com.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Access the Testing Portal to certify new features before they are added to production.
+        <br />
+        Coming Soon!
       </>
     ),
   },

@@ -37,7 +37,7 @@ mapping(uint256 => bool) private _noIncubation; | legendId → skipIncubation
 mapping(uint256 => mapping(uint256 => bool)) private _parentOf; | parentId → childId → isParent 
 ```
 
-Contract which creates and manages the lifecycle of an ERC721 Legend NFT.
+The **LegendsNFT** contract creates and manages the lifecycle of an ERC721 Legend NFT.
 Inherits from [**ILegendMetadata**](./ILegendMetadata) to define a Legend NFT.
 
 :::important
@@ -177,6 +177,25 @@ restoreBlendingSlots(uint256 legendId, uint256 regainedSlots)
 Function only callable by **LegendsLaboratory** 
 
 
+### approve
+---
+
+``` sol title="approve | external"
+function approve(address to, uint256 tokenId)
+```
+
+> Gives permission to `to` to transfer `tokenId` token to another account.
+> The approval is cleared when the token is transferred.
+>
+> Only a single account can be approved at a time, so approving the zero address clears previous approvals.
+>
+> Requirements:
+>
+> * The caller must own the token or be an approved operator.
+> * `tokenId` must exist.
+>
+> Emits an `Approval` event.
+> 
 
 ### _formatIncubationURI 
 ---
@@ -207,19 +226,19 @@ of the Legend, or otherwise influence value in any way.
 
 ``` sol title="_mintLegend | private"
 _mintLegend(
-        address recipient,
-        uint256 newLegendId,
-        uint256[2] memory parents,
-        string memory uri,
-        bool isLegendary,
-        bool skipIncubation
-    )
+    address recipient,
+    uint256 newLegendId,
+    uint256[2] memory parents,
+    string memory uri,
+    bool isLegendary,
+    bool skipIncubation
+)
 ```
 Mints a brand new Legend NFT and assigns it metadata.
 
 :::tip Note
 
-Legends will be given a temporary *Incubation URI*  when minted, prior to recieveing their
+Legends will be given a temporary *Incubation URI*  when minted, prior to receiving their
 permanent *DNA-Generated URI* via `hatchLegend`
 
 :::
@@ -408,6 +427,62 @@ Returns the current array[5] of strings that can be used as `incubationChamber`s
 
 ---
 
+### balanceOf
+---
+
+``` sol title="balanceOf | external"
+function balanceOf(address owner) → uint256
+```
+>  Returns the number of tokens in ``owner``'s account.
+
+### ownerOf
+---
+
+``` sol title="ownerOf | external"
+function ownerOf(uint256 tokenId) → address
+```
+
+> Returns the owner of the `tokenId` token.
+> 
+> Requirements:
+> 
+> * `tokenId` must exist.
+>
+
+
+### tokenOfOwnerByIndex
+---
+
+``` sol title="tokenOfOwnerByIndex | external"
+function tokenOfOwnerByIndex(address owner, uint256 index) → uint256
+```
+
+> Returns a token ID owned by `owner` at a given `index` of its token list.
+> Use along with `balanceOf` to enumerate all of ``owner``'s tokens.
+
+
+### totalSupply
+---
+
+``` sol title="totalSupply | external"
+function totalSupply() → uint256
+```
+
+> Returns the total amount of tokens stored by the contract.
+
+
+### tokenByIndex
+---
+
+``` sol title="tokenByIndex | external"
+function tokenByIndex(uint256 index) → uint256
+```
+
+> Returns a token ID at a given `index` of all the tokens stored by the contract.
+> Use along with `totalSupply` to enumerate all tokens.
+
+---
+
 <br/>
 
 ## Setters
@@ -458,7 +533,7 @@ Function only callable by **LegendsLaboratory** [`setIncubationViews`](../lab/Le
 resetLegendName(uint256 legendId)
 ```
 
-Resets a Legends NFT's `prefix` & `postfix` elements to empty strings. Function only callable by **LegendsLaboratory** [`resetLegendName`](../lab/Admin%20Overrides) 
+Resets a Legends NFT's `prefix` & `postfix` elements to empty strings. Function only callable by **LegendsLaboratory** [`resetLegendName`](../lab/Admin%20Overrides#reset-legend-name) 
 
 ---
 
@@ -467,8 +542,11 @@ Resets a Legends NFT's `prefix` & `postfix` elements to empty strings. Function 
 ## Terminology
 ---
 
- * *Restricted Promo Event* &rarr; A *promo event* where only addresses assigned `LAB_TECH` access can dispense *promo tickets*.
- * *Unrestricted Promo Event* &rarr; A *promo event* where any address can dispense up to (1) *promo ticket*.
- * *Creator Address* &rarr; Any non-*zero address*, resposible for *blending* two Legends together. This address will recieve *royalties* every time their Legend NFT is sold on the [**LegendsMarketplace](../marketplace/LegendsMarketplace). After the first initial sale, where the *creator address* is listing. 
- * *Zero Address* &rarr; `0x0000000000000000000000000000000000000000` **The Black Hole**, any Legend NFT or LGND tokens sent to this address can **NEVER** be retrieved.
+ * *Blending* &rarr; The process where (2) Legend NFTs store their DNA information together to create a *child Legend*.
+ * *Child Legend* &rarr; A new Legend NFT that is created from two existing Legend NFTs *blending*.
+ * *Incubation* &rarr; The gestation phase *child Legends* undergo where their parents' DNA is unraveled and combines to form the new Legend's DNA.
+ * *Hatched* &rarr; After a *child Legend* is fully formed it is ready to be removed from incubation.
+ * *Legendary* &rarr; A Legend NFT with genetic data so rare, that there might only ever be one in existence.
+ * *Incubation URI* &rarr; The URI assigned to a *child Legend* composed of its parent Legends DNA. 
+ * *DNA Generated URI* &rarr; The permanent URI assigned to a *child Legend* when it is *hatched* from its *incubator*.
 

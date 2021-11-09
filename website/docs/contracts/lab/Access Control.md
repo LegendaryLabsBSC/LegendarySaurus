@@ -35,7 +35,7 @@ Legendary Labs' Access Control is defined with (3) roles:
 
 This is default *super admin* role created when deploying a contract that inherits OpenZeppelin's `AccessControlEnumerable.sol`. In order to limit the authorization of this role, without reworking OpenZeppelin's `AccessControlEnumerable.sol`, the  `DEFAULT_ADMIN_ROLE` is grant to the **LegendaryLaboratory** contract when deployed.
 
-This should guarantee that `DEFAULT_ADMIN_ROLE` authority can never be exercised on the contracts. ..  This also allows `LAB_ADMIN` to be ..
+This should guarantee that `DEFAULT_ADMIN_ROLE` authority can never be exercised on the contracts.
 
 :::
 

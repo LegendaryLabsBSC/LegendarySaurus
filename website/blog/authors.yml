@@ -2,16 +2,16 @@ gavin:
   name: Gavin Sproles
   title: Lead Blockchain Developer
   url: https://github.com/gavinspr
-  image_url: img/gavin.png
+  image_url: ../static/img/gavin.png
 
 spencer:
   name: Spencer Pope
   title: Lead Front End Developer
   url: https://github.com/yangshun
-  image_url: https://github.com/yangshun.png
+  image_url: ../static/img/spencer.jpg
 
 chuck:
   name: Charlie Frail
   title: Creative Director 
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
+  url: https://github.com/charliefrail
+  image_url: ../static/img/chuck.jpg

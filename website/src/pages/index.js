@@ -13,16 +13,13 @@ function HomepageHeader() {
       <div className="container">
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        {/* <div><img src={('../../static/img/test-svgrepo-com.svg')} width={150} /> */}
-        {/* <div><img src={('../../static/img/spellbook-book-svgrepo-com.svg')} width={150} /> */}
-        {/* <div><img src={('../../static/img/book2.svg')} width={150} /> */}
         <div><img src={('../../static/img/laboratory-svgrepo-com.svg')} width={150} />
-
         </div>
+        <br />
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
+            to="/docs/contracts/contracts">
             Get Started In The Lab🥼🧫⚗️
           </Link>
         </div>
