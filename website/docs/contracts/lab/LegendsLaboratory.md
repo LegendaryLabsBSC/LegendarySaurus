@@ -514,7 +514,7 @@ Resets the [`_auctionExtension`](../marketplace/LegendsMarketplace/#setmarketpla
 setMinimumSecure(uint256 newMinimumSecure)
 ```
 
-Resets the [`_minimumSecure`](../rejuvenation/LegendsRejuvenation#setminimumsecure) amount.
+Resets the [`_minimumSecure`](../rejuvenation/LegendRejuvenation#setminimumsecure) amount.
 
 ### setMaxMultiplier
 ---
@@ -527,7 +527,7 @@ Resets the [`_minimumSecure`](../rejuvenation/LegendsRejuvenation#setminimumsecu
 setMaxMultiplier(uint256 newMaxMultiplier)
 ```
 
-Resets the [`_maxMultiplier`](../rejuvenation/LegendsRejuvenation#setmaxmultiplier).
+Resets the [`_maxMultiplier`](../rejuvenation/LegendRejuvenation#setmaxmultiplier).
 
 ### setReJuPerBlock
 ---
@@ -541,7 +541,7 @@ setReJuPerBlock(uint256 newReJuEmissionRate)
 ```
 
 
-Resets the [`_reJuPerBlock`](../rejuvenation/LegendsRejuvenation#setrejuperblock) rate.
+Resets the [`_reJuPerBlock`](../rejuvenation/LegendRejuvenation#setrejuperblock) rate.
 
 ### setReJuNeededPerSlot
 ---
@@ -554,7 +554,7 @@ Resets the [`_reJuPerBlock`](../rejuvenation/LegendsRejuvenation#setrejuperblock
 setReJuNeededPerSlot(uint256 newReJuNeededPerSlot)
 ```
 
-Resets the [`_ReJuNeededPerSlot`](../rejuvenation/LegendsRejuvenation#setrejuneededperslot) to restore a *blending instance*.
+Resets the [`_ReJuNeededPerSlot`](../rejuvenation/LegendRejuvenation#setrejuneededperslot) to restore a *blending instance*.
 
 ## Terminology
 ---

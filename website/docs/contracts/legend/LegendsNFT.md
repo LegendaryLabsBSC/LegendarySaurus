@@ -495,7 +495,7 @@ function tokenByIndex(uint256 index) → uint256
 setBlendingRule(uint256 blendingRule, uint256 newRuleData)
 ```
 
-Function only callable by [**LegendsLaboratory**](/docs/LegendsLaboratory#setBlendingRule)'s `setBlendingRule`
+Function only callable by [**LegendsLaboratory**](../lab/LegendsLaboratory#setblendingerule)  `setBlendingRule`
 
 :::tip Note
 

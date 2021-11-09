@@ -45,7 +45,7 @@ bool isDestroyed
  * `postfix` &rarr; Second element of Legend NFT naming scheme
  * `parents[2]` &rarr;   IDs of Legend NFTs used to create *this* Legend
  * `birthday` &rarr; Time Legend NFT was minted, in Block/UNIX time
- * `blendingInstancesUsed` &rarr; *Blending Slots* used by a Legend. Can be decreased in the [**LegendsRejuvenation**](docs/contracts/rejuvenation/LegendsRejuvenation#restoreBlendingSlot)
+ * `blendingInstancesUsed` &rarr; *Blending Slots* used by a Legend. Can be decreased in the [**LegendsRejuvenation**](docs/contracts/rejuvenation/LegendRejuvenation#restoreblendingslot)
  * `totalOffspring` &rarr; Total number of times a Legend NFT has created a *child Legend*. Can never be decreased.
  * `legendCreator` &rarr; Address of Legend NFT creator. Legends created via a *promo event* will be assigned the *zero address*.
  * `isLegendary` &rarr; Indicates if a Legend NFT is Legendary or not
