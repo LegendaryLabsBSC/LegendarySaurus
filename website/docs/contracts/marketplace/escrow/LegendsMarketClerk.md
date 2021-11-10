@@ -1,4 +1,4 @@
-## `LegendsMarketClerk`
+<!-- ## `LegendsMarketClerk`
 
 
 
@@ -96,4 +96,6 @@ Calls the getter for {_royaltiesAccrued} inside the {LegendsEscrow} contract.
 
 
 
+ -->
 
+![Under Construction](../../../../static/img/underConstruction.png)

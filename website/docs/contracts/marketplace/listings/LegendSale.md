@@ -1,4 +1,4 @@
-## `LegendSale`
+<!-- ## `LegendSale`
 
 
 
@@ -79,4 +79,6 @@ address payable legendOwner
 bool isAccepted
 
 
+ -->
 
+![Under Construction](../../../../static/img/underConstruction.png)

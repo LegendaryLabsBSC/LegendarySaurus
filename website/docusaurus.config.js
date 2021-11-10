@@ -79,7 +79,7 @@ const config = {
           },
           { to: '/blog', label: 'Updates', position: 'left' },
           {
-            href: 'https://github.com/LegendaryLabsBSC/LegendaryLabs/tree/develop/contracts/contracts',
+            href: 'https://github.com/LegendaryLabsBSC/LegendaryLabs',
             label: 'GitHub',
             position: 'right',
           },

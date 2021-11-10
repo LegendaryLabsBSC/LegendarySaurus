@@ -2,12 +2,13 @@ gavin:
   name: Gavin Sproles
   title: Lead Blockchain Developer
   url: https://github.com/gavinspr
-  image_url: https://legendarylabs.net/img/team/gavin.png
+  image_url: https://github.com/gavinspr.png
+  # image_url: https://legendarylabs.net/img/team/gavin.png
 
 spencer:
   name: Spencer Pope
   title: Lead Front End Developer
-  url: https://github.com/yangshun
+  url: https://github.com/spope851
   image_url: https://legendarylabs.net/img/team/spencer.jpg
 
 chuck:

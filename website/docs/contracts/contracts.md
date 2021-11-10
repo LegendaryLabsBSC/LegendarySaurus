@@ -189,4 +189,25 @@ I plan to create an API for the front end to use, to further simplify the intera
 
 ## Glossary Of Terms
 #### Terms throughout all Legendary Labs contracts and LabDocs
----
+--- 
+* *Blending* &rarr; The process where (2) Legend NFTs store their DNA information together to create a *child Legend*.
+ * *Child Legend* &rarr; A new Legend NFT that is created from two existing Legend NFTs *blending*.
+ * *Creator Address* &rarr; Any non-*zero address*, resposible for *blending* two Legends together. This address will recieve *royalties* every time their Legend NFT is sold on the [**LegendsMarketplace**](../marketplace/LegendsMarketplace). After the first initial sale, where the *creator address* is listing. 
+ * *Dispensed* &rarr; To increment the *promo ticket*-credit value assigned to the calling address, for a given *promo event*. 
+ * *DNA Generated URI* &rarr; The permanent URI assigned to a *child Legend* when it is *hatched* from its *incubator*.
+ * *Expired* &rarr; A *promo event* which can not longer dispense new tickets, but can still have existing tickets redeemed.
+ * *Hatched* &rarr; After a *child Legend* is fully formed it is ready to be removed from incubation.
+ * *Incubation* &rarr; The gestation phase *child Legends* undergo where their parents' DNA is unraveled and combines to form the new Legend's DNA.
+ * *Incubation URI* &rarr; The URI assigned to a *child Legend* composed of its parent Legends DNA. 
+ * *Legendary* &rarr; A Legend NFT with genetic data so rare, that there might only ever be one in existence.
+ * *Max Ticket Limit* &rarr; A set number of *promo tickets* that can be *dispensed* for a given *promo event*. *Promo events* that have not  yet *expired*, but have reached an assoiated *max ticket limit*, will no longer be able to dispense new *promo tickets*
+ * *Promo Event* &rarr; An instance during which addresses can be credited with *promo tickets*.
+ * *Promo Ticket* &rarr; An integer credit assigned to an address, associated with a `promoId`. Used for granting access and functionality. Non-transferable asset.
+ * *Redeemed* &rarr; To decrement the *promo ticket*-credit value assigned to the calling address, for a given *promo event*. 
+ * *Restricted Promo Event* &rarr; A *promo event* where only addresses assigned `LAB_TECH` access can dispense *promo tickets*.
+ * *Role* &rarr; A level of access granted to an address.
+ * *Role Admin* &rarr; A *role* with the authority to grant and revoke the *role* it is *role admin* of to addresses. 
+ * *Standard Admin* &rarr; An address that can call `LAB_TECH` access-controlled functions .
+ * *Super Admin* &rarr; An address with the highest level of access that is allowed by the **Legendary Labs** contracts. Can call `LAB_ADMIN` access-controlled functions.
+ * *Unrestricted Promo Event* &rarr; A *promo event* where any address can dispense up to (1) *promo ticket*.
+ * *Zero Address* &rarr; `0x0000000000000000000000000000000000000000` **The Black Hole**, any Legend NFT or LGND tokens sent to this address can **NEVER** be retrieved.
