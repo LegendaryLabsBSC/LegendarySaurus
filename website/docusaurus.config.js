@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/vsDark');
 const config = {
   title: 'Lab Docs',
   tagline: "It's Going To Be Legendary!",
-  url: 'https://legendarylabs.net',
+  url: 'https://docs.legendarylabs.net',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

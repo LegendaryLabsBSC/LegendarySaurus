@@ -175,12 +175,12 @@ Calls `_closePromoEvent` from [**TicketMachine**](./TicketMachine#_closepromoeve
 restoreBlendingSlots(uint256 legendId, uint256 regainedSlots)
 ```
 
-Calls `restoreBlendingSlots` from [**LegendsRejuvenation**](../rejuvenation/LegendRejuvenation#resto).
+Calls `restoreBlendingSlots` from [**LegendRejuvenation**](../rejuvenation/LegendRejuvenation#resto).
 
 
 :::important
 
-Function only callable by `LegendsRejuvenation`.
+Function only callable by `LegendRejuvenation`.
 
 :::
 
@@ -302,7 +302,7 @@ Returns the current **Legendary Labs** Season
 fetchBlendingCount(uint256 legendId) → uint256
 ```
 
-Returns a given Legend's `blendingInstancesUsed`, used by [**LegendsRejuvenation**](../rejuvenation/LegendRejuvenation#enterrejuvenationpod). For regular queries of `_legendsMetadata.blendingInstancesUsed` [`fetchLegendMetadata`](../legend/LegendsNFT#fetchlegendmetadata) can be used.
+Returns a given Legend's `blendingInstancesUsed`, used by [**LegendRejuvenation**](../rejuvenation/LegendRejuvenation#enterrejuvenationpod). For regular queries of `_legendsMetadata.blendingInstancesUsed` [`fetchLegendMetadata`](../legend/LegendsNFT#fetchlegendmetadata) can be used.
 
 
 :::note Info

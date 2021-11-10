@@ -191,6 +191,7 @@ I plan to create an API for the front end to use, to further simplify the intera
 #### Terms throughout all Legendary Labs contracts and LabDocs
 --- 
 * *Blending* &rarr; The process where (2) Legend NFTs store their DNA information together to create a *child Legend*.
+* *Blending Slots* &rarr; The **LegendsNFT** contract imposes a `_blendingLimit` on all Legend NFTs. This limit is the number of *blending slots* each legend has. If the `_blendingLimit` is set to `(5)` and a particular Legend has *blended* (3) times, they would of used up `3 of 5` *blending slots*. Once the limit is reached, a Legend can not *blend* again until after restoring some *blending slots*
  * *Child Legend* &rarr; A new Legend NFT that is created from two existing Legend NFTs *blending*.
  * *Creator Address* &rarr; Any non-*zero address*, resposible for *blending* two Legends together. This address will recieve *royalties* every time their Legend NFT is sold on the [**LegendsMarketplace**](../marketplace/LegendsMarketplace). After the first initial sale, where the *creator address* is listing. 
  * *Dispensed* &rarr; To increment the *promo ticket*-credit value assigned to the calling address, for a given *promo event*. 
@@ -204,9 +205,12 @@ I plan to create an API for the front end to use, to further simplify the intera
  * *Promo Event* &rarr; An instance during which addresses can be credited with *promo tickets*.
  * *Promo Ticket* &rarr; An integer credit assigned to an address, associated with a `promoId`. Used for granting access and functionality. Non-transferable asset.
  * *Redeemed* &rarr; To decrement the *promo ticket*-credit value assigned to the calling address, for a given *promo event*. 
+ * *ReJu* &rarr; In-game unit of measurement used to calculate how much a Legend has *rejuvenated* while inside their *pod*.
+ * *Rejuvenation Pod* &rarr; Each Legend has their very own *rejuvenation pod* unique to that Legend. When a Legend is occupying their *rejuvenation pod* they can not be placed utilize any functionality that requires them to be in a *listable* state. However, while inside their *pod* a Legends earns *ReJu* to restore used *blending slots*.
  * *Restricted Promo Event* &rarr; A *promo event* where only addresses assigned `LAB_TECH` access can dispense *promo tickets*.
  * *Role* &rarr; A level of access granted to an address.
  * *Role Admin* &rarr; A *role* with the authority to grant and revoke the *role* it is *role admin* of to addresses. 
+ * *Securing* &rarr; In order to power some of **Legendary Labs** game functionalities, players will need to *secure* LGND tokens. These *secured* token are purely for in-game functionality, not financial. 
  * *Standard Admin* &rarr; An address that can call `LAB_TECH` access-controlled functions .
  * *Super Admin* &rarr; An address with the highest level of access that is allowed by the **Legendary Labs** contracts. Can call `LAB_ADMIN` access-controlled functions.
  * *Unrestricted Promo Event* &rarr; A *promo event* where any address can dispense up to (1) *promo ticket*.

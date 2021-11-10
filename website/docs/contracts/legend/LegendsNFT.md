@@ -168,7 +168,7 @@ If this is called on a `legendId` that Legend will cease to exist for all eterni
 ### restoreBlendingSlots 
 ---
 
-Called from [**LegendsRejuvenation &rarr; LegendsLaboratory**](../lab/LegendsLaboratory#restoreblendingslots)
+Called from [**LegendRejuvenation &rarr; LegendsLaboratory**](../lab/LegendsLaboratory#restoreblendingslots)
 
 ``` sol title="restoreBlendingSlots | public | onlyLab"
 restoreBlendingSlots(uint256 legendId, uint256 regainedSlots)

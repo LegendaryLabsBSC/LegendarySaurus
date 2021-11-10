@@ -5,9 +5,6 @@
 Interface used by [**LegendsNFT**](./LegendsNFT). Outlines the metadata of a Legend NFT.
 
 
-
-<br/>
-
 ## Legend Metadata
 ---
 
@@ -39,18 +36,18 @@ bool isDestroyed
 ```
 :::note Info
 
- * `id` &rarr; Numerical ID of a Legend NFT
- * `season` &rarr; Season Legend NFT was created during
- * `prefix` &rarr; First element of Legend NFT naming scheme
- * `postfix` &rarr; Second element of Legend NFT naming scheme
- * `parents[2]` &rarr;   IDs of Legend NFTs used to create *this* Legend
- * `birthday` &rarr; Time Legend NFT was minted, in Block/UNIX time
- * `blendingInstancesUsed` &rarr; *Blending Slots* used by a Legend. Can be decreased in the [**LegendsRejuvenation**](../rejuvenation/LegendRejuvenation#restoreblendingslot)
+ * `id` &rarr; Numerical ID of a Legend NFT.
+ * `season` &rarr; Season Legend NFT was created during.
+ * `prefix` &rarr; First element of Legend NFT naming scheme.
+ * `postfix` &rarr; Second element of Legend NFT naming scheme.
+ * `parents[2]` &rarr; IDs of Legend NFTs used to create *this* Legend.
+ * `birthday` &rarr; Time Legend NFT was minted, in Block/UNIX time.
+ * `blendingInstancesUsed` &rarr; *Blending Slots* used by a Legend. Can be decreased in the [**LegendRejuvenation**](../rejuvenation/LegendRejuvenation#restoreblendingslot).
  * `totalOffspring` &rarr; Total number of times a Legend NFT has created a *child Legend*. Can never be decreased.
  * `legendCreator` &rarr; Address of Legend NFT creator. Legends created via a *promo event* will be assigned the *zero address*.
- * `isLegendary` &rarr; Indicates if a Legend NFT is Legendary or not
- * `isHatched` &rarr; Indicates if a Legend NFT has been *hatched* or not
- * `isDestroyed` &rarr; Indicates if a Legend NFT has been sent to the burn address, destroyed for eternity, or not
+ * `isLegendary` &rarr; Indicates if a Legend NFT is Legendary or not.
+ * `isHatched` &rarr; Indicates if a Legend NFT has been *hatched* or not.
+ * `isDestroyed` &rarr; Indicates if a Legend NFT has been sent to the burn address, destroyed for eternity, or not.
  
 :::
 ---
@@ -66,11 +63,8 @@ bool isDestroyed
 fetchLegendMetadata(uint256 legendId) → struct ILegendMetadata.LegendMetadata
 ```
 
-:::tip Note
+Implemented in [**LegendsNFT**](./LegendsNFT)
 
-Implemented in **LegendsNFT**
-
-:::
 
 ---
 <br/>
