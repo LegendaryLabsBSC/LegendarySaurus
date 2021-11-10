@@ -193,7 +193,7 @@ I plan to create an API for the front end to use, to further simplify the intera
 * *Blending* &rarr; The process where (2) Legend NFTs store their DNA information together to create a *child Legend*.
 * *Blending Slots* &rarr; The **LegendsNFT** contract imposes a `_blendingLimit` on all Legend NFTs. This limit is the number of *blending slots* each legend has. If the `_blendingLimit` is set to `(5)` and a particular Legend has *blended* (3) times, they would of used up `3 of 5` *blending slots*. Once the limit is reached, a Legend can not *blend* again until after restoring some *blending slots*
  * *Child Legend* &rarr; A new Legend NFT that is created from two existing Legend NFTs *blending*.
- * *Creator Address* &rarr; Any non-*zero address*, resposible for *blending* two Legends together. This address will recieve *royalties* every time their Legend NFT is sold on the [**LegendsMarketplace**](../marketplace/LegendsMarketplace). After the first initial sale, where the *creator address* is listing. 
+ * *Creator Address* &rarr; Any non-*zero address*, resposible for *blending* two Legends together. This address will recieve *royalties* every time their Legend NFT is sold on the [**LegendsMarketplace**](./marketplace/LegendsMarketplace). After the first initial sale, where the *creator address* is listing. 
  * *Dispensed* &rarr; To increment the *promo ticket*-credit value assigned to the calling address, for a given *promo event*. 
  * *DNA Generated URI* &rarr; The permanent URI assigned to a *child Legend* when it is *hatched* from its *incubator*.
  * *Expired* &rarr; A *promo event* which can not longer dispense new tickets, but can still have existing tickets redeemed.
