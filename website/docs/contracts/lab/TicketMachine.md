@@ -4,18 +4,20 @@
 import "@openzeppelin/contracts/utils/Counters.sol";
 ```
 
-```sol title="Private State Variables"
+```sol title="Internal State Variables"
 mapping(uint256 => PromoEvent) internal _promoEvent;| promoId → PromoEvent
 
 mapping(uint256 => uint256) internal _maxTicketsDispensable; | promoId → maxTicketAmount
+```
 
+```sol title="Private State Variables"
 mapping(uint256 => mapping(address => bool)) private _claimedPromo; | promoId → recipient → isClaimed
 
 mapping(uint256 => mapping(address => uint256)) private _promoTickets; | promoId → recipient → ticketCount
 ```
 
 The **TicketMachine** contract is used primarily to create Legendary Labs *promo events*. *Promo events* are the
-only other method in which new Legend NFTs can be created, when not being create from *blending*.
+only other method in which new Legend NFTs can be created, when not being create from *blending*. In its current state, this contract must be inherited to be used.
 
 
 :::important

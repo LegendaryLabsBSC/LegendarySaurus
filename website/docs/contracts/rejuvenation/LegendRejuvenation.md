@@ -26,6 +26,7 @@ mapping(uint256 => RejuvenationPod) private _rejuvenationPod; | legendId → pod
 ```
 The **LegendRejuvenation** contract allows a Legend NFT to restore decrease the value of its `_legendMetadata.blendingSlotsUsed`. Inherits from [**ILegendRejuvenation**](./IRejuvenationPod) to define a *Rejuvenation Pod*.
 
+<br/>
 
 ## Functions
 
@@ -261,8 +262,8 @@ Function only callable by [**LegendsLaboratory**](../lab/LegendsLaboratory#newre
 ## Terminology
 ---
 
- * *Rejuvenation Pod* &rarr; Each Legend has their very own *rejuvenation pod* unique to that Legend. When a Legend is occupying their *rejuvenation pod* they can not be placed utilize any functionality that requires them to be in a *listable* state. However, while inside their *pod* a Legends earns *ReJu* to restore used *blending slots*.
- * *ReJu* &rarr; In-game unit of measurement used to calculate how much a Legend has *rejuvenated* while inside their *pod*.
- * *Blending Slots* &rarr; The **LegendsNFT** contract imposes a `_blendingLimit` on all Legend NFTs. This limit is the number of *blending slots* each legend has. If the `_blendingLimit` is set to `(5)` and a particular Legend has *blended* (3) times, they would of used up `3 of 5` *blending slots*. Once the limit is reached, a Legend can not *blend* again until after restoring some *blending slots*
- * *Securing* &rarr; In order to power some of **Legendary Labs** game functionalities, players will need to *secure* LGND tokens. These *secured* token are purely for in-game functionality, not financial. 
+* *Rejuvenation Pod* &rarr; Each Legend has their very own *rejuvenation pod* unique to that Legend. When a Legend is occupying their *rejuvenation pod* they can not be placed utilize any functionality that requires them to be in a *listable* state. However, while inside their *pod* a Legends earns *ReJu* to restore used *blending slots*.
+* *ReJu* &rarr; In-game unit of measurement used to calculate how much a Legend has *rejuvenated* while inside their *pod*.
+* *Blending Slots* &rarr; The **LegendsNFT** contract imposes a `_blendingLimit` on all Legend NFTs. This limit is the number of *blending slots* each legend has. If the `_blendingLimit` is set to `(5)` and a particular Legend has *blended* (3) times, they would of used up `3 of 5` *blending slots*. Once the limit is reached, a Legend can not *blend* again until after restoring some *blending slots*
+* *Securing* &rarr; In order to power some of **Legendary Labs** game functionalities, players will need to *secure* LGND tokens. These *secured* token are purely for in-game functionality, not financial. 
 

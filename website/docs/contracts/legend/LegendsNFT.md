@@ -17,7 +17,6 @@ onlyLab(); →  only LegendsLaboratory Contract can call
 
 
 ```sol title="Private State Variables"
-
 Counters.Counter private _legendIds;
 
 KinBlendingLevel private _kinBlendingLevel;
@@ -525,6 +524,7 @@ setIncubationViews(string[5] newIncubationViews)
 
 
 Function only callable by **LegendsLaboratory** [`setIncubationViews`](../lab/LegendsLaboratory#setincubationviews) 
+../lab/LegendsLaboratory#setincubationviews
 
 ### resetLegendName 
 ---
@@ -542,11 +542,11 @@ Resets a Legends NFT's `prefix` & `postfix` elements to empty strings. Function 
 ## Terminology
 ---
 
- * *Blending* &rarr; The process where (2) Legend NFTs store their DNA information together to create a *child Legend*.
- * *Child Legend* &rarr; A new Legend NFT that is created from two existing Legend NFTs *blending*.
- * *Incubation* &rarr; The gestation phase *child Legends* undergo where their parents' DNA is unraveled and combines to form the new Legend's DNA.
- * *Hatched* &rarr; After a *child Legend* is fully formed it is ready to be removed from incubation.
- * *Legendary* &rarr; A Legend NFT with genetic data so rare, that there might only ever be one in existence.
- * *Incubation URI* &rarr; The URI assigned to a *child Legend* composed of its parent Legends DNA. 
- * *DNA Generated URI* &rarr; The permanent URI assigned to a *child Legend* when it is *hatched* from its *incubator*.
+* *Blending* &rarr; The process where (2) Legend NFTs store their DNA information together to create a *child Legend*.
+* *Child Legend* &rarr; A new Legend NFT that is created from two existing Legend NFTs *blending*.
+* *Incubation* &rarr; The gestation phase *child Legends* undergo where their parents' DNA is unraveled and combines to form the new Legend's DNA.
+* *Hatched* &rarr; After a *child Legend* is fully formed it is ready to be removed from incubation.
+* *Legendary* &rarr; A Legend NFT with genetic data so rare, that there might only ever be one in existence.
+* *Incubation URI* &rarr; The URI assigned to a *child Legend* composed of its parent Legends DNA. 
+* *DNA Generated URI* &rarr; The permanent URI assigned to a *child Legend* when it is *hatched* from its *incubator*.
 
