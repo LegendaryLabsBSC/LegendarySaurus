@@ -190,21 +190,26 @@ I plan to create an API for the front end to use, to further simplify the intera
 ## Glossary Of Terms
 #### Terms throughout all Legendary Labs contracts and LabDocs
 --- 
+* *Auction* &rarr; A marketplace listing where multiple parties bid to purchase the NFT.
 * *Blender* &rarr; The address that purchases the *match* listing. In marketplace terms, the buyer.
 * *Blender Legend* &rarr; The Legend NFT the *blender* uses to *blend* with the *surrogate Legend*.
 * *Blending* &rarr; The process where (2) Legend NFTs store their DNA information together to create a *child Legend*.
 * *Blending Slots* &rarr; The **LegendsNFT** contract imposes a `_blendingLimit` on all Legend NFTs. This limit is the number of *blending slots* each legend has. If the `_blendingLimit` is set to `(5)` and a particular Legend has *blended* (3) times, they would of used up `3 of 5` *blending slots*. Once the limit is reached, a Legend can not *blend* again until after restoring some *blending slots*
+* *Chain-Currency* &rarr; The currency used by the chain **Legendary Labs** is deployed on.
 * *Child Legend* &rarr; A new Legend NFT that is created from two existing Legend NFTs *blending*.
 * *Creator Address* &rarr; Any non-*zero address*, resposible for *blending* two Legends together. This address will recieve *royalties* every time their Legend NFT is sold on the [**LegendsMarketplace**](./marketplace/LegendsMarketplace). After the first initial sale, where the *creator address* is listing. 
+* *Credit* &rarr; Due to using the *Pull over Push* pattern and an Escrow contract, *payments* from successful listings are credited to the appropriate address. The address will then withdraw what is owed to them directly from the Escrow, rather than being sent from `payer`.
 * *Dispensed* &rarr; To increment the *promo ticket*-credit value assigned to the calling address, for a given *promo event*. 
 * *DNA Generated URI* &rarr; The permanent URI assigned to a *child Legend* when it is *hatched* from its *incubator*.
 * *Expired* &rarr; A *promo event* which can not longer dispense new tickets, but can still have existing tickets redeemed.
 * *Hatched* &rarr; After a *child Legend* is fully formed it is ready to be removed from incubation.
 * *Incubation* &rarr; The gestation phase *child Legends* undergo where their parents' DNA is unraveled and combines to form the new Legend's DNA.
 * *Incubation URI* &rarr; The URI assigned to a *child Legend* composed of its parent Legends DNA. 
+* *Instant Buy* &rarr; A set price for an *auction* to be closed at.
 * *Legendary* &rarr; A Legend NFT with genetic data so rare, that there might only ever be one in existence.
 * *Matching* &rarr; A marketplace listing type. Allows for *blending* between two Legend NFTs not owned by the same addres, for a price in LGND tokens.
 * *Max Ticket Limit* &rarr; A set number of *promo tickets* that can be *dispensed* for a given *promo event*. *Promo events* that have not  yet *expired*, but have reached an assoiated *max ticket limit*, will no longer be able to dispense new *promo tickets*
+* *Offer* &rarr; A marketplace listing where the prospective buyer initiates the listing, rather than the seller.
 * *Promo Event* &rarr; An instance during which addresses can be credited with *promo tickets*.
 * *Promo Ticket* &rarr; An integer credit assigned to an address, associated with a `promoId`. Used for granting access and functionality. Non-transferable asset.
 * *Redeemed* &rarr; To decrement the *promo ticket*-credit value assigned to the calling address, for a given *promo event*. 
@@ -213,6 +218,8 @@ I plan to create an API for the front end to use, to further simplify the intera
 * *Restricted Promo Event* &rarr; A *promo event* where only addresses assigned `LAB_TECH` access can dispense *promo tickets*.
 * *Role* &rarr; A level of access granted to an address.
 * *Role Admin* &rarr; A *role* with the authority to grant and revoke the *role* it is *role admin* of to addresses. 
+* *Royalties* &rarr; *Chain-Currency* collected from successful marketplace listings, and *credited*
+* *Sale* &rarr; The base listing type for a the **Legendary Labs Marketplace**, a traditional marketplace listing.
 * *Securing* &rarr; In order to power some of **Legendary Labs** game functionalities, players will need to *secure* LGND tokens. These *secured* token are purely for in-game functionality, not financial. 
 * *Standard Admin* &rarr; An address that can call `LAB_TECH` access-controlled functions .
 * *Super Admin* &rarr; An address with the highest level of access that is allowed by the **Legendary Labs** contracts. Can call `LAB_ADMIN` access-controlled functions.

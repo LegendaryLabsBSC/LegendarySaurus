@@ -230,6 +230,22 @@ Generic burn function which allows the `LAB_ADMIN` to burn LGND tokens owed by t
 Could be used to extend functionality prior to a full v2 launch if a concept was thought of
 
 :::
+
+### withdrawMarketplaceFees
+---
+
+``` sol title="withdrawMarketplaceFees | public | onlyRole(LAB_ADMIN)"
+withdrawMarketplaceFees()
+```
+Allows `LAB_ADMIN` to collect accumulated marketplace fees.
+
+:::important
+
+Prior to deploying for MVP, a dedicated address for handling funds acquired through the
+project, and to only be used for the project, could be added in for further project transparency.
+
+:::
+
 ---
 
 <br/>

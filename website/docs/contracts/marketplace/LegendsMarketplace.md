@@ -12,6 +12,14 @@ import "./listings/LegendAuction.sol";
 onlyLab(); →  only LegendsLaboratory Contract can call
 ```
 
+```sol title="Private State Variables"
+uint256 private _royaltyFee;
+
+uint256 private _marketplaceFee;
+
+mapping(uint256 => bool) private _paymentTransferred; | listingId → isPaymentTransferred
+```
+
 The **LegendMarketplace** contract establishes a marketplace for Legend NFTs to be traded utilizing various listing types. This contracts inherits [**LegendAuction**](./listings/LegendAuction) to implement marketplace *listings*. This contract also inherits [**LegendsMarketClerk**](./escrow/LegendsMarketClerk), which deploys and manages the [**LegendsEscrow**](./escrow/LegendsEscrow) contract isolated from the rest of the **Legendary Labs** contracts.
 
 ! talk about how fees royalties work
@@ -84,7 +92,7 @@ A `Auction` can be cancelled by the `seller` **ONLY** if (0) bids have been plac
 
 <br/>
 
-``` sol title="createLegendSale | external"
+``` sol title="createLegendSale | external | nonReentrant"
 createLegendSale(address nftContract, uint256 legendId, uint256 price)
 ```
 
@@ -111,7 +119,7 @@ Calling this function will transfer the listed Legend NFT to this contract.
 
 <br/>
 
-``` sol title="buyLegend | external"
+``` sol title="buyLegend | external | nonReentrant"
 buyLegend(uint256 listingId)
 ```
 
@@ -134,7 +142,7 @@ Purchases a *sale* listing. Calls [`_buyLegend`](./listings/LegendSale#_buylegen
 <br/>
 
 
-``` sol title="makeLegendOffer | external"
+``` sol title="makeLegendOffer | external | nonReentrant"
 makeLegendOffer(address nftContract, uint256 legendId)
 ```
 
@@ -164,7 +172,7 @@ Payment is stored in the **LegendsEscrow** contract as a bid, until a decision h
 <br/>
 
 
-``` sol title="decideLegendOffer | external"
+``` sol title="decideLegendOffer | external | nonReentrant"
 decideLegendOffer(uint256 listingId, bool isAccepted)
 ```
 
@@ -204,7 +212,7 @@ If the Legend NFT owner does not wish to pay any gas in order to reject the *off
 <br/>
 
 
-``` sol title="createLegendAuction | external"
+``` sol title="createLegendAuction | external | nonReentrant"
 createLegendAuction(address nftContract, uint256 legendId, uint256 durationIndex, uint256 startingPrice, uint256 instantPrice
 ```
 
@@ -235,7 +243,7 @@ Calling this function will transfer the listed Legend NFT to *this* contract.
 <br/>
 
 
-``` sol title="placeBid | external"
+``` sol title="placeBid | external | nonReentrant"
 placeBid(uint256 listingId)
 ```
 
@@ -279,7 +287,7 @@ the *auction* will be closed, regardless of remaining duration, and the bidder w
 
 <br/>
 
-``` sol title="refundBid | external"
+``` sol title="refundBid | external | nonReentrant"
 refundBid(uint256 listingId)
 ```
 
@@ -299,7 +307,7 @@ Withdraws a bid placed on an *auction* or *offer* listing. Calls [`_refundBid`](
 
 <br/>
 
-``` sol title="cancelLegendListing | external"
+``` sol title="cancelLegendListing | external | nonReentrant"
 cancelLegendListing(uint256 listingId)
 ```
 
@@ -330,7 +338,7 @@ Cancelling a *sale* or *auction* will transfer the NFT back to the owner.
 <br/>
 
 
-``` sol title="closeListing | external"
+``` sol title="closeListing | external | nonReentrant"
 closeListing(uint256 listingId)
 ```
 
@@ -375,7 +383,7 @@ If the `msg.sender` is the buyer, [`_claimLegend`](#_claimlegend) will then be c
 <br/>
 
 
-``` sol title="collectRoyalties | external"
+``` sol title="collectRoyalties | external | nonReentrant"
 collectRoyalties()
 ```
 
@@ -478,7 +486,7 @@ Returns the counts for `_listingIds`, `_listingsClosed`, & `_listingsCancelled`.
 ### fetchLegendListing
 ---
 
-``` sol title="fetchLegendListing | public"
+``` sol title="fetchLegendListing | public | isValidListing(listingId)"
 fetchLegendListing(uint256 listingId) → struct ILegendListing.LegendListing
 ```
 
@@ -583,7 +591,7 @@ Returns the values of the (5) *marketplace rules*
 ### setMarketplaceRule
 ---
 
-``` sol title="setMarketplaceRule | public"
+``` sol title="setMarketplaceRule | public | onlyLab"
 setMarketplaceRule(uint256 marketplaceRule, uint256 newRuleData)
 ```
 
@@ -593,7 +601,7 @@ Function only callable by [**LegendsLaboratory**](../lab/LegendsLaboratory#setma
 ### setAuctionDurations
 ---
 
-``` sol title="setAuctionDurations | public"
+``` sol title="setAuctionDurations | public | onlyLab"
 setAuctionDurations(uint256[3] newAuctionDurations)
 ```
 
@@ -609,7 +617,7 @@ Function only callable by [**LegendsLaboratory**](../lab/LegendsLaboratory#setau
 ### withdrawMarketplaceFees
 ---
 
-``` sol title="withdrawMarketplaceFees | public"
+``` sol title="withdrawMarketplaceFees | public | onlyLab"
 withdrawMarketplaceFees()
 ```
 

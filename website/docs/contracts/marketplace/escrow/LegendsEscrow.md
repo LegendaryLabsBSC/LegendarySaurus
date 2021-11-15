@@ -33,7 +33,7 @@ This contract is isolated from the rest of the *Laboratory Contracts Ecosystem*.
 
 Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_asynctransfer)
 
-``` sol title="depositPayment | public"
+``` sol title="depositPayment | public | onlyOwner"
 depositPayment(
   uint256 marketplaceFee, 
   uint256 royaltyFee, 
@@ -58,7 +58,7 @@ Once an *auction* has been won or an *offer* is accepted, the bid placed by the 
 Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_asynctransferbid)
 
 
-``` sol title="depositBid | public"
+``` sol title="depositBid | public | onlyOwner"
 depositBid(uint256 listingId, address payer) 
 ```
 Stores *auction* and *offer* listing payments as a *credit* attributed to the `payer` address, for a particular listing.
@@ -85,7 +85,7 @@ If contract space were to allow, or in a future version utilizing EIP-2535, func
 Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_refundbid)
 
 
-``` sol title="refundBid | public"
+``` sol title="refundBid | public | onlyOwner"
 refundBid(uint256 listingId, address payable payee)
 ```
 Refunds *auction* or *offer* bid back to the `payer` address for a particular listing.
@@ -95,7 +95,7 @@ Refunds *auction* or *offer* bid back to the `payer` address for a particular li
 
 Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_closebid)
 
-``` sol title="closeBid | public"
+``` sol title="closeBid | public | onlyOwner"
 closeBid(uint256 listingId, address payable payer, uint256 marketplaceFee, uint256 royaltyFee, address payable legendCreator, address payable payee)
 ```
 
@@ -107,7 +107,7 @@ Transfers a winning *auction* bid or accepted *offer* bid from the `payer` and c
 Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_withdrawpayments)
 
 
-``` sol title="withdrawPayments | external"
+``` sol title="withdrawPayments | external | onlyOwner"
 withdrawPayments(address payable payee)
 ```
 
@@ -125,7 +125,7 @@ This will transfer the sum of all closed listings to the caller. *Auction* and *
 Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_withdrawroyalties)
 
 
-``` sol title="withdrawRoyalties | external"
+``` sol title="withdrawRoyalties | external | onlyOwner"
 withdrawRoyalties(address payable payee)
 ```
 
