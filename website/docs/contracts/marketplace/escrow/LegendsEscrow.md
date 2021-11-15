@@ -1,143 +1,229 @@
-<!-- ## `LegendsEscrow`
+### `LegendsEscrow.sol`
 
+#### &ast; Contract inspired by and modified from OpenZeppelin's [**Escrow**](https://docs.openzeppelin.com/contracts/4.x/api/utils#Escrow) contract.
 
+``` sol title="imports  | pragma solidity 0.8.4"
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
+```
 
-Base escrow contract, holds funds designated for a payee until they
-withdraw them.
+```sol title="Private State Variables"
+mapping(address => uint256) private _paymentPending; | payeeAddress → paymentsOwed
 
-Intended usage: This contract (and derived escrow contracts) should be a
-standalone contract, that only interacts with the contract that instantiated
-it. That way, it is guaranteed that all Ether will be handled according to
-the `Escrow` rules, and there is no need to check for payable functions or
-transfers in the inheritance tree. The contract that uses the escrow as its
-payment method should be its owner, and provide public methods redirecting
-to the escrow's deposit and withdraw.
+mapping(uint256 => mapping(address => uint256)) private _bidPlaced; | listingId → bidderAddress → bidAmount
 
+mapping(address => uint256) private _royaltiesAccrued; | legendCreator → royaltiesAmount
+```
 
-### `depositPayment(uint256 marketplaceFee, uint256 royaltyFee, address payable legendCreator, address payable payee)` (public)
+Contract which holds payments and bids until the right condition is triggered. 
 
-Collects fees and then credits seller with listing-payment to be later withdrawn.
+:::important
 
+This contract is isolated from the rest of the *Laboratory Contracts Ecosystem*. The functions within this contract can only be called by the functions within the [**LegendsMarketClerk**](./LegendsMarketClerk) contract, and only when certain conditions are met.
 
+:::
 
-This function does the actual collection of {_marketplaceFee} and {_royaltyFee}
-prior to crediting payment to the seller. Fee collection at this step makes it easier to
-incorporate auction and offer logic into the Escrow and Pull-over-Push patterns.
-Collecting here also allows an address to withdraw the accumulation of payments
-from successful sales, rather than having to collect payment from each individual sale/
+---
+<br/>
 
+## Functions
 
+### depositPayment
+---
 
-### `depositBid(uint256 listingId, address payer)` (public)
+Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_asynctransfer)
 
-Stores auction-bid or offer-amount as a credit attributed to the payer address.
+``` sol title="depositPayment | public"
+depositPayment(
+  uint256 marketplaceFee, 
+  uint256 royaltyFee, 
+  address payable legendCreator, 
+  address payable payee
+  )
+```
 
+Collects fees and then credits `payee` with payment to be later withdrawn.
 
+:::tip Note
 
+This function is where the collection of `_marketplaceFee` and `_royaltyFee` occurs, prior to crediting payment to the seller. 
 
+Once an *auction* has been won or an *offer* is accepted, the bid placed by the payer will be transferred to the payee via the **Escrow** utilizing this function. That way fees are only collected from the buyer of a listing.
 
-### `refundBid(uint256 listingId, address payable payee)` (public)
+:::
 
-Refunds auction-bid or offer-amount back to the payer address.
+### depositBid
+---
 
+Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_asynctransferbid)
 
 
-It is imperative to set the {_bidPlaced} amount of the payee back to 0 prior to refunding the bid.
+``` sol title="depositBid | public"
+depositBid(uint256 listingId, address payer) 
+```
+Stores *auction* and *offer* listing payments as a *credit* attributed to the `payer` address, for a particular listing.
 
+:::important
 
+If the bid is for an *auction* listing and the `payer` has previously bid on the given listing, their previous bid will be incremented with the new bid.
 
-### `closeBid(uint256 listingId, address payable payer, uint256 marketplaceFee, uint256 royaltyFee, address payable legendCreator, address payable payee)` (public)
+*Offer listings* are not provided functionality to increase their bids.
 
-Refunds auction-bid or offer-amount back to the payer address.
+:::
 
+:::tip Note
 
+If contract space were to allow, or in a future version utilizing EIP-2535, functionality could be extended to provide *offer-makers* and *offer-receivers* the ability to send counter-offers, or simply deny an *offer* of any amount entirely.
+     
+:::
 
-It is imperative to set the {_bidPlaced} amount of the payee back to 0 prior to refunding the bid.
+         
 
+### refundBid
+---
 
+Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_refundbid)
 
-### `withdrawPayments(address payable payee)` (external)
 
+``` sol title="refundBid | public"
+refundBid(uint256 listingId, address payable payee)
+```
+Refunds *auction* or *offer* bid back to the `payer` address for a particular listing.
 
+### closeBid
+---
 
-Withdraw accumulated balance for a payee, forwarding all gas to the
-recipient.
+Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_closebid)
 
-WARNING: Forwarding all gas opens the door to reentrancy vulnerabilities.
-Make sure you trust the recipient, or are either following the
-checks-effects-interactions pattern or using {ReentrancyGuard}.
+``` sol title="closeBid | public"
+closeBid(uint256 listingId, address payable payer, uint256 marketplaceFee, uint256 royaltyFee, address payable legendCreator, address payable payee)
+```
 
+Transfers a winning *auction* bid or accepted *offer* bid from the `payer` and credits it `payee`. 
 
+### withdrawPayments
+---
 
-### `withdrawRoyalties(address payable payee)` (external)
+Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_withdrawpayments)
 
 
+``` sol title="withdrawPayments | external"
+withdrawPayments(address payable payee)
+```
 
+Transfers all pending *payments* to a payee. 
 
+:::important
 
-### `fetchPaymentsPending(address payee) → uint256` (public)
+This will transfer the sum of all closed listings to the caller. *Auction* and *offer* listings that the caller is owed payment for, but has not had [`closeListing`](../LegendsMarketplace#closelisting) called on by either party, will not be included in the transferred *payment* amount.
 
-Amount returned is the sum of all unclaimed successful sales and auctions.
+:::
 
+### withdrawRoyalties
+---
 
+Called by [**LegendsMarketClerk**](./LegendsMarketClerk#_withdrawroyalties)
 
-Returns the amount owed to an address through Legend sales and auctions.
 
+``` sol title="withdrawRoyalties | external"
+withdrawRoyalties(address payable payee)
+```
 
+Transfers all accrued *royalties* to a given address. 
 
-### `fetchBidPlaced(uint256 listingId, address bidder) → uint256` (public)
+---
 
-Amount returned is the individual bid an address has placed on each unique auction Id.
+<br/>
 
+## Getters
 
+### fetchPaymentsPending
+---
 
-Returns the bid amount an address has placed on a Legend auction.
+``` sol title="fetchPaymentsPending | public"
+fetchPaymentsPending(address payee) → uint256
+```
 
+Returns the amount owed to a given address through successful marketplace *listings*.
 
+### fetchBidPlaced
+---
 
-### `fetchRoyaltiesAccrued(address payee) → uint256` (public)
+``` sol title="fetchBidPlaced | public"
+fetchBidPlaced(uint256 listingId, address bidder) → uint256
+```
 
-Amount returned is the sum of all royalties owed to the Legend-Creator-Address,
-from all Legends the Creator address has previously Blended.
+Returns the bid amount a given address has placed on a particular *auction* or *offer* listing.
 
+### fetchRoyaltiesAccrued
+---
 
+``` sol title="fetchRoyaltiesAccrued | public"
+fetchRoyaltiesAccrued(address payee) → uint256
+```
 
-Returns the amount of royalties accumulated through sales and auctions owed to a Legend's creator.
+Returns the amount of royalties accumulated through successful marketplace *listings* owed to a particular address.
 
 
+---
+<br/>
 
+## Events 
 
-### `PaymentDeposited(address payee, uint256 amount)`
+### PaymentDeposited
+---
 
+``` sol title="PaymentDeposited"
+PaymentDeposited(address payee, uint256 amount)
+```
 
 
+Emitted when a *payment* is credited to an address.
+[`depositPayment`](#depositpayment)
 
+### PaymentsWithdrawn
+---
 
-### `PaymentsWithdrawn(address payee, uint256 amount)`
+``` sol title="PaymentsWithdrawn"
+PaymentsWithdrawn(address payee, uint256 amount)
+```
 
 
+Emitted when an address collects *payments* owed to them.
+[`withdrawPayments`](#withdrawpayments)
 
+### RoyaltiesWithdrawn
+---
 
+``` sol title="RoyaltiesWithdrawn"
+RoyaltiesWithdrawn(address payee, uint256 amount)
+```
 
-### `RoyaltiesWithdrawn(address payee, uint256 amount)`
 
+Emitted when an address collects *royalties* owed to them.
+[`withdrawRoyalties`](#withdrawroyalties)
 
+### BidPlaced
+---
 
+``` sol title="BidPlaced"
+BidPlaced(uint256 listingId, address payer, uint256 amount)
+```
 
 
-### `BidPlaced(uint256 listingId, address payer, uint256 amount)`
+Emitted when a bid is placed on a Legend *auction* or *offer* listing .
+[`depositBid`](#depositbid)
 
+### BidRefunded
+---
 
+``` sol title="BidRefunded"
+BidRefunded(uint256 listingId, address payer, uint256 amount)
+```
 
 
+Emitted when a bid is refunded to the bidder.
+[`refundBid`](#refundbid)
 
-### `BidRefunded(uint256 listingId, address payer, uint256 amount)`
 
 
-
-
-
-
- -->
-
-![Under Construction](../../../../static/img/underConstruction.png)

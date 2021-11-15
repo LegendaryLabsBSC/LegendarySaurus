@@ -494,12 +494,12 @@ function tokenByIndex(uint256 index) → uint256
 setBlendingRule(uint256 blendingRule, uint256 newRuleData)
 ```
 
-Function only callable by [**LegendsLaboratory**](../lab/LegendsLaboratory#setblendingerule)  `setBlendingRule`
+Function only callable by [**LegendsLaboratory**](../lab/LegendsLaboratory#setblendingerule).
 
 :::tip Note
 
 Due to smart-contract size limitations, (EIP-170),
-the (4) variables that make up the *blending limits* share the same getter.
+the (4) variables that make up the *blending limits* share the same setter.
 
 :::
 

@@ -12,7 +12,7 @@ import "./match/LegendMatching.sol";
 onlyLab(); →  only LegendsLaboratory Contract can call
 ```
 
-The **LegendMatchingBoard** contract establishes a marketplace so that Legend NFTs can be listed for the purpose of *blending* with. This contracts inherits [**LegendMatching**](./match/LegendMatching) to implement *matching listings*.
+The **LegendMatchingBoard** contract establishes a marketplace so that Legend NFTs can be listed for the purpose of *blending* with. This contracts inherits [**LegendMatching**](./match/LegendMatching) to implement *match listings*.
 
 <br/>
 
@@ -29,7 +29,7 @@ The **LegendMatchingBoard** contract establishes a marketplace so that Legend NF
 createLegendMatching(address nftContract, uint256 legendId, uint256 price)
 ```
 
-Creates a new Legend *matching listing*. Calls `_createLegendMatching` from [**LegendMatching**](./match/LegendMatching#_createlegendmatching).
+Creates a new Legend *match* listing. Calls `_createLegendMatching` from [**LegendMatching**](./match/LegendMatching#_createlegendmatching).
 
 
 :::caution Requirements:
@@ -58,7 +58,7 @@ Calling this function will transfer the listed Legend NFT to this contract.
 matchWithLegend(uint256 matchingId, uint256 legendId)
 ```
 
-Completes a *matching listing* by creating a new *child Legend* using the `surrogateLegend` and the `blendingLegend`.
+Completes a *match* listing by creating a new *child Legend* using the `surrogateLegend` and the `blendingLegend`.
  Calls `_matchWithLegend` from [**LegendMatching**](./match/LegendMatching#_matchwithlegend).
 
 :::caution Requirements:
@@ -72,7 +72,7 @@ Completes a *matching listing* by creating a new *child Legend* using the `surro
 
 :::important
 
-The cost to purchase a *matching listing* is: `_legendMatching.price` + the `blendingCost` for the (2) Legend NFTs being blended.
+The cost to purchase a *match* listing is: `_legendMatching.price` + the `blendingCost` for the (2) Legend NFTs being blended.
 
 :::
 
@@ -94,7 +94,7 @@ will be sent to this contract. In order to claim the *child Legend*, the `blende
 ### cancelLegendMatching
 ---
 
-> *Cancel Your Matching Listing*
+> *Cancel Your match* listing
 
 <br/>
 
@@ -103,7 +103,7 @@ will be sent to this contract. In order to claim the *child Legend*, the `blende
 cancelLegendMatching(uint256 matchingId)
 ```
 
-Cancels a *matching listing* and returns the `surrogateLegend` to the `surrogate` address.
+Cancels a *match* listing and returns the `surrogateLegend` to the `surrogate` address.
  Calls `_cancelLegendMatching` from [**LegendMatching**](./match/LegendMatching#_cancellegendmatching).
 
 
@@ -164,7 +164,7 @@ If the player decides to not relist their Legend NFT, the NFT will be returned t
 claimEgg(uint256 matchingId)
 ```
 
-Allows the `blender` of a given *matching listing* to claim the *child Legend* that was created.
+Allows the `blender` of a given *match* listing to claim the *child Legend* that was created.
 
 :::caution Requirements:
 
@@ -185,7 +185,7 @@ Allows the `blender` of a given *matching listing* to claim the *child Legend* t
 claimTokens()
 ```
 
-Transfers any pending LGND tokens, earned from *matching listings*, to the caller.
+Transfers any pending LGND tokens, earned from *match listings*, to the caller.
 
 :::caution Requirements:
 
@@ -216,7 +216,7 @@ Returns the counts for `_matchingIds`, `_matchingsClosed`, & `_matchingsCancelle
 fetchLegendMatching(uint256 matchingId) → struct ILegendMatch.LegendMatching
 ```
 
-Returns the details for a given Legend *matching listing*.
+Returns the details for a given Legend *match* listing.
 
 
 ### fetchTokensPending
@@ -236,7 +236,7 @@ Returns the amount of LGND tokens owned to the caller.
 fetchEggOwed(uint256 matchingId) → uint256
 ```
 
-Returns the ID of the *child Legend* owed from a given *matching listing* to the `blender`.
+Returns the ID of the *child Legend* owed from a given *match* listing to the `blender`.
 
 
 ---
@@ -246,7 +246,7 @@ Returns the ID of the *child Legend* owed from a given *matching listing* to the
 ---
 
 * *Matching* &rarr; A marketplace listing type. Allows for *blending* between two Legend NFTs not owned by the same addres, for a price in LGND tokens.
-* *Surrogate* &rarr; The address responsible for creating the *matching listing*. In marketplace terms, the seller.
-* *Surrogate Legend* &rarr; The Legend NFT being listed in a *matching listing*, belongs to the *surrogate*.
-* *Blender* &rarr; The address that purchases the *matching listing*. In marketplace terms, the buyer.
+* *Surrogate* &rarr; The address responsible for creating the *match* listing. In marketplace terms, the seller.
+* *Surrogate Legend* &rarr; The Legend NFT being listed in a *match* listing, belongs to the *surrogate*.
+* *Blender* &rarr; The address that purchases the *match* listing. In marketplace terms, the buyer.
 * *Blender Legend* &rarr; The Legend NFT the *blender* uses to *blend* with the *surrogate Legend*.

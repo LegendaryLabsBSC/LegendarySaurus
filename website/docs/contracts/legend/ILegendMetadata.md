@@ -54,7 +54,7 @@ bool isDestroyed
 
 <br/>
 
-## Functions
+## Getters
 
 ### fetchLegendMetadata
 ---

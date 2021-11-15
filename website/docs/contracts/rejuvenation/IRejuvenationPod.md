@@ -42,7 +42,7 @@ bool occupied
 
 <br/>
 
-## Functions
+## Getters
 
 ### fetchPodDetails
 ---

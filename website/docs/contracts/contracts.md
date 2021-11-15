@@ -190,7 +190,7 @@ I plan to create an API for the front end to use, to further simplify the intera
 ## Glossary Of Terms
 #### Terms throughout all Legendary Labs contracts and LabDocs
 --- 
-* *Blender* &rarr; The address that purchases the *matching listing*. In marketplace terms, the buyer.
+* *Blender* &rarr; The address that purchases the *match* listing. In marketplace terms, the buyer.
 * *Blender Legend* &rarr; The Legend NFT the *blender* uses to *blend* with the *surrogate Legend*.
 * *Blending* &rarr; The process where (2) Legend NFTs store their DNA information together to create a *child Legend*.
 * *Blending Slots* &rarr; The **LegendsNFT** contract imposes a `_blendingLimit` on all Legend NFTs. This limit is the number of *blending slots* each legend has. If the `_blendingLimit` is set to `(5)` and a particular Legend has *blended* (3) times, they would of used up `3 of 5` *blending slots*. Once the limit is reached, a Legend can not *blend* again until after restoring some *blending slots*
@@ -216,7 +216,7 @@ I plan to create an API for the front end to use, to further simplify the intera
 * *Securing* &rarr; In order to power some of **Legendary Labs** game functionalities, players will need to *secure* LGND tokens. These *secured* token are purely for in-game functionality, not financial. 
 * *Standard Admin* &rarr; An address that can call `LAB_TECH` access-controlled functions .
 * *Super Admin* &rarr; An address with the highest level of access that is allowed by the **Legendary Labs** contracts. Can call `LAB_ADMIN` access-controlled functions.
-* *Surrogate* &rarr; The address responsible for creating the *matching listing*. In marketplace terms, the seller.
-* *Surrogate Legend* &rarr; The Legend NFT being listed in a *matching listing*, belongs to the *surrogate*.
+* *Surrogate* &rarr; The address responsible for creating the *match* listing. In marketplace terms, the seller.
+* *Surrogate Legend* &rarr; The Legend NFT being listed in a *match* listing, belongs to the *surrogate*.
 * *Unrestricted Promo Event* &rarr; A *promo event* where any address can dispense up to (1) *promo ticket*.
 * *Zero Address* &rarr; `0x0000000000000000000000000000000000000000` **The Black Hole**, any Legend NFT or LGND tokens sent to this address can **NEVER** be retrieved.

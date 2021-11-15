@@ -16,15 +16,15 @@ Counters.Counter internal _matchingsClosed;
 
 Counters.Counter internal _matchingsCancelled;
 
-mapping(uint256 => LegendMatching) internal _legendMatching;| matchingId → matchingDetails
+mapping(uint256 => LegendMatching) internal _legendMatching; | matchingId → matchingDetails
 
 mapping(address => uint256) internal _tokensPending; | playerAddress → amount
 
 mapping(uint256 => mapping(address => uint256)) internal _eggPending; | matchingId → blenderAddress → childId
 ```
 
-The **LegendMatching** contract inherits from [**ILegendMatch**](./ILegendMatch) to define a Legend NFT *matching listing*.
-This contract acts as a ledger for a *matching listing*, recording important data and events during the lifecycle of a *matching listing*.
+The **LegendMatching** contract inherits from [**ILegendMatch**](./ILegendMatch) to define a Legend NFT *match* listing.
+This contract acts as a ledger for a *match* listing, recording important data and events during the lifecycle of a *match* listing.
 This contract is inherited by the [**LegendsMatchingBoard**](../LegendsMatchingBoard).
 
 
@@ -40,7 +40,7 @@ _createLegendMatching(address nftContract, uint256 legendId, uint256 price)
 ```
 
 
-Creates a new Legend NFT *matching listing* and changes the state to `Open`.
+Creates a new Legend NFT *match* listing and changes the state to `Open`.
 Called from [**LegendsMatchingBoard**](../LegendsMatchingBoard#createlegendmatching).
 
 
@@ -51,7 +51,7 @@ Called from [**LegendsMatchingBoard**](../LegendsMatchingBoard#createlegendmatch
 _matchWithLegend(uint256 matchingId, address blender, uint256 blenderLegend, uint256 childId, uint256 matchingPayment)
 ```
 
-Records the details of a successful *matching listing* and changes the state to `Closed`.
+Records the details of a successful *match* listing and changes the state to `Closed`.
 Called from [**LegendsMatchingBoard**](../LegendsMatchingBoard#cancellegendmatching).
 
 :::important
@@ -70,7 +70,7 @@ with the *child Legend* owed. These payments are later withdrawn by the players 
 _cancelLegendMatching(uint256 matchingId)
 ```
 
-Changes the state of a *matching listing* to `Cancelled`.
+Changes the state of a *match* listing to `Cancelled`.
 Called from [**LegendsMatchingBoard**](../LegendsMatchingBoard#cancellegendmatching).
 
 ---
@@ -119,7 +119,7 @@ Implemented in [**LegendsMatchingBoard**](../LegendsMatchingBoard#fetcheggowed).
 EggClaimed(address recipient, uint256 matchingId, uint256 childId)
 ```
 
-Emitted when a `blending` address has claimed the *child Legend* owed to them from a particular *matching listing*.
+Emitted when a `blending` address has claimed the *child Legend* owed to them from a particular *match* listing.
 [`claimEgg`](../LegendsMatchingBoard#claimegg)
 
 ### TokensClaimed
@@ -129,7 +129,7 @@ Emitted when a `blending` address has claimed the *child Legend* owed to them fr
 TokensClaimed(address payee, uint256 amount)
 ```
 
-Emitted when a `surrogate` address has claimed LGND tokens owed to them from *matching listings*.
+Emitted when a `surrogate` address has claimed LGND tokens owed to them from *match listings*.
 [`claimTokens`](../LegendsMatchingBoard#claimtokens)
 
 ### PromoCreated

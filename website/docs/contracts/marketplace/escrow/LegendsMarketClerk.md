@@ -1,101 +1,154 @@
-<!-- ## `LegendsMarketClerk`
+### `LegendsMarketClerk.sol` 
 
+#### &ast; Contract inspired by and modified from OpenZeppelin's [**PullPayment**](https://docs.openzeppelin.com/contracts/4.x/api/security#PullPayment) contract.
 
+``` sol title="imports  | pragma solidity 0.8.4"
+import "./LegendsEscrow.sol";
+```
 
-Simple implementation of a
-https://consensys.github.io/smart-contract-best-practices/recommendations/#favor-pull-over-push-for-external-calls[pull-payment]
-strategy, where the paying contract doesn't interact directly with the
-receiver account, which must withdraw its payments itself.
+```sol title="Internal State Variables"
+mapping(uint256 => mapping(address => bool)) internal _isBidRefundable; | listingId → bidderAddress → canWithdrawBid
+```
 
-Pull-payments are often considered the best practice when it comes to sending
-Ether, security-wise. It prevents recipients from blocking execution, and
-eliminates reentrancy concerns.
+```sol title="Private State Variables"
+LegendsEscrow private immutable _escrow;
+```
 
-TIP: If you would like to learn more about reentrancy and alternative ways
-to protect against it, check out our blog post
-https://blog.openzeppelin.com/reentrancy-after-istanbul/[Reentrancy After Istanbul].
+The **LegendsMarketClerk** contract is used by the [**LegendsMarketplace**](../LegendsMarketplace) to handle the transferring of bids and payments to the [**LegendsEscrow**](./LegendsEscrow) contract. 
 
-To use, derive from the `PullPayment` contract, and use {_asyncTransfer}
-instead of Solidity's `transfer` function. Payees can query their due
-payments with {payments}, and retrieve them with {withdrawPayments}.
+:::important
 
+The functions inside this contract can **ONLY** be called when certain conditions are met. Additionally, the functions inside this contract are the **ONLY** functions capable of calling functions inside the **LegendsEscrow** contract.
 
-### `constructor()` (internal)
+:::
 
 
+---
+<br/>
 
+## Functions
 
+### _asyncTransfer
+---
 
-### `_asyncTransfer(uint256 price, uint256 marketplaceFee, uint256 royaltyFee, address payable legendCreator, address payable payee)` (internal)
+``` sol title="_asyncTransfer | internal"
+_asyncTransfer(uint256 price, uint256 marketplaceFee, uint256 royaltyFee, address payable legendCreator, address payable payee)
+```
 
+> Called by the payer to store the sent amount as *credit* to be pulled.
+Funds sent in this way are stored in an intermediate Escrow contract, so
+there is no danger of them being spent before withdrawal. 
 
+Calls `depositPayment` from [**LegendsEscrow**](./LegendsEscrow#depositpayment).
 
-Called by the payer to store the sent amount as credit to be pulled.
-Funds sent in this way are stored in an intermediate {Escrow} contract, so
-there is no danger of them being spent before withdrawal. --OpenZeppelin
+### _asyncTransferBid
+---
 
-Calls the {depositPayment} function in the {LegendsEscrow} contract.
+``` sol title="_asyncTransferBid | internal"
+_asyncTransferBid(uint256 amount, uint256 listingId, address payer)
+```
 
+Calls `depositBid` from [**LegendsEscrow**](./LegendsEscrow#depositbid).
 
+:::important
 
-### `_asyncTransferBid(uint256 amount, uint256 listingId, address payer)` (internal)
+Both *auction* and *offer listings* utilize `_asyncTransferBid` in order to protect the funds of the payer as well as guarantee the existence of the funds for the payee.
 
+The bid is stored as a *credit* attributed to the payers address, as opposed to the payees address.
 
+Should a payer be outbid, or in the case of an *offer* the seller not accept their offerAmount,
+the bid is unlocked for the payer to later withdraw via calling [`refundBid`](../LegendsMarketplace#refundbid).
 
-Calls the {depositBid} function in the {LegendsEscrow} contract.
+  
+:::
 
+### _refundBid
+---
 
+Called from [**LegendsMarketplace**](./LegendsMarketplace#refundbid)
 
-### `_refundBid(uint256 listingId, address payable payee)` (internal)
+``` sol title="_refundBid | internal"
+_refundBid(uint256 listingId, address payable payee)
+```
 
+Calls `refundBid` from [**LegendsEscrow**](./LegendsEscrow#refundbid).
 
+### _closeBid
+---
 
-Calls the {refundBid} function in the {LegendsEscrow} contract.
+Called from [**LegendsMarketplace**](./LegendsMarketplacew#closebid)
 
+``` sol title="_closeBid | internal"
+_closeBid(uint256 listingId, address payable payer, uint256 marketplaceFee, uint256 royaltyFee, address payable legendCreator, address payable payee)
+```
 
 
-### `_closeBid(uint256 listingId, address payable payer, uint256 marketplaceFee, uint256 royaltyFee, address payable legendCreator, address payable payee)` (internal)
+Calls `closeBid` from [**LegendsEscrow**](./LegendsEscrow#closebid).
 
+### _withdrawPayments
+---
 
+Called from [**LegendsMarketplace**](./LegendsMarketplace#withdrawpayments).
 
-Calls the {closeBid} function in the {LegendsEscrow} contract.
+``` sol title="_withdrawPayments | internal"
+_withdrawPayments(address payable payee
+```
 
+> Withdraw accumulated payments, forwarding all gas to the recipient.
 
+Calls `withdrawPayments` from [**LegendsEscrow**](./LegendsEscrow#withdrawpayments).
 
-### `_withdrawPayments(address payable payee)` (internal)
+:::caution Requirements:
 
+* Payments pending must be greater than (0)
 
+:::
 
-Withdraw accumulated payments, forwarding all gas to the recipient.
+### _withdrawRoyalties
+---
 
+Called from [**LegendsMarketplace**](./LegendsMarketplace#withdrawroyalties)
 
+``` sol title="_withdrawRoyalties | internal"
+_withdrawRoyalties(address payable payee) 
+```
 
-### `_withdrawRoyalties(address payable payee)` (internal)
+Calls `withdrawRoyalties` from [**LegendsEscrow**](./LegendsEscrow#withdrawroyalties).
 
+---
 
+<br/>
 
+## Getters
 
+### fetchPaymentsPending
+---
 
-### `fetchPaymentsPending(address payee) → uint256` (public)
+``` sol title="fetchPaymentsPending | public"
+fetchPaymentsPending(address payee) → uint256
+```
 
+Returns the total amount of payments pending for a given address. Calls `fetchPaymentsPending` from [**LegendsEscrow**](./LegendsEscrow#fetchpaymentspending).
 
+### fetchBidPlaced
+---
 
-Calls the getter for {_paymentsPending} inside the {LegendsEscrow} contract.
+``` sol title="fetchBidPlaced | public"
+fetchBidPlaced(uint256 listingId, address bidder) → uint256
+```
 
-### `fetchBidPlaced(uint256 listingId, address bidder) → uint256` (public)
+Returns the total bid amount a given address has placed on a particular listing. Calls `fetchBidPlaced` from [**LegendsEscrow**](./LegendsEscrow#fetchbidplaced).
 
+### fetchRoyaltiesAccrued
+---
 
+``` sol title="fetchRoyaltiesAccrued | public"
+fetchRoyaltiesAccrued(address payee) → uint256
+```
 
-Calls the getter for {_bidPlaced} inside the {LegendsEscrow} contract.
 
-### `fetchRoyaltiesAccrued(address payee) → uint256` (public)
+Returns the total amount of royalties accrued for a given address. Calls `fetchRoyaltiesAccrued` from [**LegendsEscrow**](./LegendsEscrow#fetchroyaltiesaccrued).
 
 
 
-Calls the getter for {_royaltiesAccrued} inside the {LegendsEscrow} contract.
 
-
-
- -->
-
-![Under Construction](../../../../static/img/underConstruction.png)
