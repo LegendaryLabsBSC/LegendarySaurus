@@ -26,7 +26,7 @@ mapping(uint256 => mapping(address => uint256)) internal _legendPending; | listi
 ```
 
 
-The **LegendSale** contract inherits from [**ILegendListing**](./ILegendMatch) to define Legend NFT marketplace listing.
+The **LegendSale** contract inherits from [**ILegendListing**](./ILegendListing) to define Legend NFT marketplace listing.
 This contract acts as a ledger for *sale listings* & *offer listings*, recording important data and events during the
 lifecycle of these listing types.
 This contract is inherited by the [**LegendAuction**](./LegendAuction) contract.

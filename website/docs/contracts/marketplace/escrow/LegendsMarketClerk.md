@@ -65,7 +65,7 @@ the bid is unlocked for the payer to later withdraw via calling [`refundBid`](..
 ### _refundBid
 ---
 
-Called from [**LegendsMarketplace**](./LegendsMarketplace#refundbid)
+Called from [**LegendsMarketplace**](../LegendsMarketplace#refundbid)
 
 ``` sol title="_refundBid | internal"
 _refundBid(uint256 listingId, address payable payee)
@@ -76,7 +76,7 @@ Calls `refundBid` from [**LegendsEscrow**](./LegendsEscrow#refundbid).
 ### _closeBid
 ---
 
-Called from [**LegendsMarketplace**](./LegendsMarketplacew#closebid)
+Called from [**LegendsMarketplace**](../LegendsMarketplace#closebid)
 
 ``` sol title="_closeBid | internal"
 _closeBid(uint256 listingId, address payable payer, uint256 marketplaceFee, uint256 royaltyFee, address payable legendCreator, address payable payee)
@@ -88,7 +88,7 @@ Calls `closeBid` from [**LegendsEscrow**](./LegendsEscrow#closebid).
 ### _withdrawPayments
 ---
 
-Called from [**LegendsMarketplace**](./LegendsMarketplace#withdrawpayments).
+Called from [**LegendsMarketplace**](../LegendsMarketplace#withdrawpayments).
 
 ``` sol title="_withdrawPayments | internal"
 _withdrawPayments(address payable payee
@@ -107,7 +107,7 @@ Calls `withdrawPayments` from [**LegendsEscrow**](./LegendsEscrow#withdrawpaymen
 ### _withdrawRoyalties
 ---
 
-Called from [**LegendsMarketplace**](./LegendsMarketplace#withdrawroyalties)
+Called from [**LegendsMarketplace**](../LegendsMarketplace#withdrawroyalties)
 
 ``` sol title="_withdrawRoyalties | internal"
 _withdrawRoyalties(address payable payee) 
