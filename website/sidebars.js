@@ -27,7 +27,6 @@ const sidebars = {
           Lab: [
             'contracts/lab/LegendsLaboratory',
             'contracts/lab/TicketMachine',
-            'contracts/lab/LaboratoryGovernor',
             'contracts/lab/Access Control',
             'contracts/lab/Admin Overrides'
           ],

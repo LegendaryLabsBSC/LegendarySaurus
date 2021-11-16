@@ -22,7 +22,6 @@ mapping(uint256 => bool) private _paymentTransferred; | listingId → isPaymentT
 
 The **LegendMarketplace** contract establishes a marketplace for Legend NFTs to be traded utilizing various listing types. This contracts inherits [**LegendAuction**](./listings/LegendAuction) to implement marketplace *listings*. This contract also inherits [**LegendsMarketClerk**](./escrow/LegendsMarketClerk), which deploys and manages the [**LegendsEscrow**](./escrow/LegendsEscrow) contract isolated from the rest of the **Legendary Labs** contracts.
 
-! talk about how fees royalties work
 
 :::important
 

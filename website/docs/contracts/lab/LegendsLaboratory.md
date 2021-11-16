@@ -2,7 +2,6 @@
 
 ``` sol title="imports  | pragma solidity 0.8.4"
 import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
-import "./LaboratoryGovernor.sol";
 import "../legend/LegendsNFT.sol";
 import "../token/LegendToken.sol";
 import "../rejuvenation/LegendRejuvenation.sol";

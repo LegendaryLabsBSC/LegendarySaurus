@@ -2,7 +2,6 @@
 
 ``` sol title="imports  | pragma solidity 0.8.4"
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 import "../lab/LegendsLaboratory.sol";
 ```
 
@@ -20,7 +19,7 @@ onlyMarketplace() →  only LegendsMarketplace Contract can call
 onlyBlending() →  only LegendsNFT Contract can call
 ```
 
-The **LegendToken** contract is responsible for creating the ERC20 token associated with the **Legendary Labs** project, the **LGND** token. This contract also provides **LGND** token holders a way to vote on future project decisions. As the [**LaboratoryGovernor**](../lab/LaboratoryGovernor) hooks into the **LegendToken** contract, allowing **LGND** tokens to be counted as votes.
+The **LegendToken** contract is responsible for creating and managing the ERC20 token associated with the **Legendary Labs** project, the **LGND** token. 
 
 ---
 
